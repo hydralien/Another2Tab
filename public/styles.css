@@ -1,0 +1,29 @@
+/* Bootstrap protection */
+
+* {
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
+
+*:before,
+*:after {
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: initial;
+    overflow-y: hidden;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+}
+
+/* End Of Bootstrap protection and other black magic */
