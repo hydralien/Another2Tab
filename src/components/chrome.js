@@ -7,6 +7,13 @@ Vue.mixin( {
 			this.$chrome = options.chrome;
 		else if ( options.parent && options.parent.$chrome )
 			this.$chrome = options.parent.$chrome;
+
+		this.$tr = this.$chrome.i18n.getMessage;
+	},
+	methods: {
+		tr(tagName) {
+			return this.$chrome.i18n.getMessage(tagName);
+		}
 	}
 } );
 

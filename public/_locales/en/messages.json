@@ -8,9 +8,13 @@
     "description" : "main app description"
   },
 
-  "settings" : {
+  "toggle_settings" : {
     "message" : "Toggle settings",
     "description" : "Settings toggler title"
+  },
+  "settings" : {
+    "message" : "Settings",
+    "description" : "Settings title"
   },
   "extensions" : {
     "message" : "Extensions management page",
