@@ -22,7 +22,11 @@
     "storage",
     "unlimitedStorage",
     "bookmarks",
-    "chrome://favicon/"
+    "management",
+    "topSites",
+    "chrome://favicon/",
+    "system.cpu",
+    "http://hydralien.net/"
   ],
   "chrome_url_overrides": {
     "newtab": "index.html"

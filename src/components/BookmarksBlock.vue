@@ -61,8 +61,9 @@
 
 		font-size: 3em;
 
-		pre {
-			font-size: 10pt;
+		p {
+			margin: 0;
+			font-size: 50%;
 		}
 		img {
 			width: 50%;

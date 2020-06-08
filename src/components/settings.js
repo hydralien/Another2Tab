@@ -1,4 +1,5 @@
-const SAVINGS_TIMEOUT = 2000;
+const SAVINGS_TIMEOUT = 1000;
+const ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 7; // one week
 
 export default class Settings {
 	constructor(chromeInstance, initCallback) {
@@ -20,7 +21,14 @@ export default class Settings {
 			bookmarksRootNode: 1, // this has to be configurable
 		};
 
-		this.local = {};
+		this.local = {
+			// each record in cache supposed to be an object with "content" and "createdAt" fields
+			iconCache: {},
+			backgroundImage: {
+				content: "",
+				url: ""
+			}
+		};
 
 		if (initCallback == null) {
 			initCallback = function () {
@@ -56,10 +64,10 @@ export default class Settings {
 	}
 
 	saveLocalSettings() {
-		this.saveSettings(this.chrome.storage.local, this.local);
+		this.saveSettings(this.chrome.storage.local, this.local, 100);
 	}
 
-	saveSettings(chromeStorage, settingsObject) {
+	saveSettings(chromeStorage, settingsObject, timeout = SAVINGS_TIMEOUT) {
 		if (this.savingsTimer != null) {
 			clearTimeout(this.savingsTimer);
 		}
@@ -71,7 +79,26 @@ export default class Settings {
 			});
 		};
 
-		this.savingsTimer = setTimeout(storageMethod, SAVINGS_TIMEOUT);
+		this.savingsTimer = setTimeout(storageMethod, timeout);
+	}
+
+	getCachedLocalIcon(iconUrl) {
+		let cachedIcon = this.local.iconCache[iconUrl];
+		if (cachedIcon == null) {return}
+		let now = new Date();
+		if (parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+			return;
+		}
+
+		return cachedIcon.content;
+	}
+
+	saveCachedLocalIcon(iconUrl, iconContent) {
+		this.local.iconCache[iconUrl] = {
+			content: iconContent,
+			createdAt: parseInt(new Date().getTime() / 1000)
+		};
+		this.saveLocalSettings();
 	}
 
 }

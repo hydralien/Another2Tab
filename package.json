@@ -28,6 +28,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "html-webpack-plugin": "^4.3.0",
+    "image-to-data-uri": "^1.1.0",
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
     "vue-template-compiler": "^2.6.11"
