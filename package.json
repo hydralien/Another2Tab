@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "dev": "vue-cli-service build --mode development --dest build --watch",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "test": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service build --mode development --dest build --watch"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
@@ -23,22 +24,21 @@
     "@types/node": "^14.0.5",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-unit-jest": "^4.1.0",
     "@vue/cli-service": "~4.3.0",
     "@vue/test-utils": "^1.0.3",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.0.1",
     "chrome-api": "^1.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "expect": "^26.0.1",
     "html-webpack-plugin": "^4.3.0",
     "image-to-data-uri": "^1.1.0",
-    "jest": "^26.0.1",
     "jsdom": "^16.2.2",
     "jsdom-global": "^3.0.2",
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
-    "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

@@ -1,8 +1,11 @@
-import Vue from 'vue'
-import {shallowMount} from '@vue/test-utils'
+// Check:
+// 	https://vue-test-utils.vuejs.org/api/wrapper/
+//  https://vuejs.org/v2/guide/unit-testing.html
 
-import Bookmark from "../../src/components/Bookmark.vue";
-import Settings from "../../src/components/settings.js";
+import {shallowMount} from '@vue/test-utils';
+
+import Bookmark from "@/components/Bookmark.vue";
+import Settings from "@/components/settings.js";
 
 function mockChrome() {
 	return {
@@ -25,14 +28,14 @@ function getMount() {
 	return shallowMount(
 		Bookmark,
 		{
-			bookmarks: [
-				{
+			propsData: {
+				bookmark: {
 					id: 1,
 					url: "mockery",
 					title: "Mock Icon"
-				}
-			],
-			settings: new Settings(mockChrome())
+				},
+				settings: new Settings(mockChrome())
+			}
 		}
 	);
 }
@@ -40,7 +43,8 @@ function getMount() {
 describe('Bookmark.vue', () => {
 	it('has properly generated icon url', async () => {
 		const wrapper = getMount();
-		expect(wrapper.find('img').src).toMatch("chrome://favicon/mockery");
+		console.log(wrapper.find('img').src);
+		expect(wrapper.find('img').attributes('src')).toMatch("chrome://favicon/mockery");
 		expect(wrapper.find('p').text()).toMatch("Mock Icon");
 	})
 });
