@@ -15,18 +15,18 @@
 			</label>
 			<button v-on:click="saveSettings">{Save settings}</button>
 		</section>
-		<section id="tools">
-			<section id="settings-holder" class="tools">
+		<section id="controls-container">
+			<section id="settings-controls" class="controls">
 				<div id="settings-trigger" class="trigger" v-on:click="toggleSettings">
 					<font-awesome-icon icon="sliders-h"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="edit">
+				<div class="trigger" id="edit" v-bind:class="{ 'edit-mode': settings.current.editMode}" v-on:click="toggleEdit">
 					<font-awesome-icon icon="pencil-ruler"></font-awesome-icon>
 				</div>
 			</section>
 
-			<section id="chrome-tools" class="tools">
-				<div class="trigger" id="extensions">
+			<section id="chrome-tools-controls" class="controls">
+				<div class="trigger" id="extensions" v-on:click="navigate('chrome://extensions/')">
 					<font-awesome-icon :icon="['fab', 'chrome']"></font-awesome-icon>
 				</div>
 				<div class="trigger" id="cleanup">
@@ -54,7 +54,7 @@
 		<section id="bookmarks-and-extensions">
 			<BookmarksBlock v-bind:bookmarks="iconPot.bookmarkPot" v-bind:settings="settings"></BookmarksBlock>
 
-			<ExtensionsBlock></ExtensionsBlock>
+			<ExtensionsBlock v-bind:extensions="iconPot.extensionPot" v-bind:settings="settings"></ExtensionsBlock>
 		</section>
 	</main>
 </template>
@@ -75,8 +75,14 @@
 			toggleSettings() {
 				this.settings.current.settingsBlock.marginLeft = this.settings.current.settingsBlock.marginLeft === 0 ? -250 : 0;
 			},
+			toggleEdit() {
+				this.settings.current.editMode = !this.settings.current.editMode;
+			},
 			saveSettings() {
 				this.settings.saveSyncSettings();
+			},
+			navigate(targetUrl) {
+				this.$chrome.tabs.create({url: targetUrl});
 			}
 		},
 		data: function () {
@@ -118,6 +124,7 @@
 		background-color: #4285f4;
 		color: white;
 		padding: 10px;
+		overflow-y: auto;
 
 		label {
 			display: block;
@@ -147,16 +154,46 @@
 		flex-wrap: wrap;
 	}
 
-	#tools {
+	#controls-container {
 		width: 64px;
-		position: relative;
+		/*position: relative;*/
 		background-color: #DDDEE2;
+		overflow-y: auto;
+
+		.edit-mode {
+			filter: brightness(50%);
+		}
 	}
 
-	.tools {
+	.controls {
 		font-size: 2em;
 		color: #4285f4;
 		/*filter: drop-shadow(5px 4px 3px #888);*/
+	}
+
+	.icon {
+		text-align: center;
+		background-color: #DDDEE2;
+		border-radius: 5px;
+		padding: 10px;
+		margin: 10px;
+		overflow: hidden;
+
+		/* alignment */
+		cursor: pointer;
+		color: blue;
+		justify-content: center;
+		border: 1px solid transparent;
+
+		font-size: 3em;
+
+		p {
+			margin: 0;
+			font-size: 50%;
+		}
+		img {
+			width: 50%;
+		}
 	}
 
 	.items-group {
@@ -188,17 +225,19 @@
 		height: 32px;
 	}
 
-	#chrome-tools {
+	.trigger:hover, .trigger.active {
+		background-color: #bebebe;
+	}
+
+	#chrome-tools-controls {
 		width: 32px;
 
 		.trigger {
 			float: left;
 		}
+
 	}
 
-	.trigger:hover, .trigger.active {
-		background-color: #bebebe;
-	}
 
 	/*#settings span {*/
 	/*	font-size: 10pt;*/

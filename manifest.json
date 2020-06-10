@@ -22,6 +22,7 @@
     "storage",
     "unlimitedStorage",
     "bookmarks",
+    "management",
     "chrome://favicon/"
   ],
   "chrome_url_overrides": {

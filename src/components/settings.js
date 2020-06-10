@@ -10,6 +10,7 @@ export default class Settings {
 			settingsBlock: {
 				marginLeft: 0
 			},
+			editMode: false
 		};
 
 		this.sync = {

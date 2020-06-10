@@ -1,6 +1,9 @@
-// Check:
+// Check for specs:
 // 	https://vue-test-utils.vuejs.org/api/wrapper/
 //  https://vuejs.org/v2/guide/unit-testing.html
+// Check article:
+// https://testdriven.io/blog/vue-unit-testing/
+// and code: https://gitlab.com/patkennedy79/vue-weather-app
 
 import {shallowMount} from '@vue/test-utils';
 

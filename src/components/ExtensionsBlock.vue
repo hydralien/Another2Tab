@@ -4,19 +4,18 @@
             {Extensions}
         </h2>
         <section class="content" id="content-extensions">
-            <button v-on:click="openExtensions">Extensions</button>
+            <Extension v-for="(extension,id) in extensions" v-bind:key="id" v-bind:extension="extension" v-bind:settings="settings"></Extension>
         </section>
     </article>
 </template>
 
 <script>
+    import Extension from "@/components/Extension";
     export default {
+        components: {Extension},
         props: {
-        },
-        methods: {
-            openExtensions() {
-                this.$chrome.tabs.create({url: 'chrome://extensions/'});
-            },
+            extensions: Array,
+            settings: Object
         }
     };
 </script>

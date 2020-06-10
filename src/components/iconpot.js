@@ -13,5 +13,11 @@ export default class IconPot {
 				this.bookmarkPot = bookmarks;
 			}
 		);
+
+		this.chrome.management.getAll(
+			extensions => {
+				this.extensionPot = extensions;
+			}
+		);
 	}
 }
