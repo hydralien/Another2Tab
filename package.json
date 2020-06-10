@@ -15,7 +15,8 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "copy-webpack-plugin": "^6.0.1",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
@@ -23,14 +24,21 @@
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
+    "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
     "chrome-api": "^1.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "expect": "^26.0.1",
     "html-webpack-plugin": "^4.3.0",
     "image-to-data-uri": "^1.1.0",
+    "jest": "^26.0.1",
+    "jsdom": "^16.2.2",
+    "jsdom-global": "^3.0.2",
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
+    "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
