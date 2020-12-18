@@ -6,14 +6,7 @@ export default class IconPot {
 		this.extensionPot = [];
 	}
 
-	loadPots(bookmarksRootNode) {
-		this.chrome.bookmarks.getChildren(
-			bookmarksRootNode,
-			bookmarks => {
-				this.bookmarkPot = bookmarks;
-			}
-		);
-
+	loadPots() {
 		this.chrome.management.getAll(
 			extensions => {
 				this.extensionPot = extensions;

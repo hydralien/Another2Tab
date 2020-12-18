@@ -5,6 +5,7 @@ module.exports = {
 	externals: [nodeExternals()],
 	use: [
 		'vue-style-loader',
-		'css-loader'
+		'css-loader',
+		'sass-loader'
 	]
 }

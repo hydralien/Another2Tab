@@ -10,11 +10,15 @@ import {
 	faCogs,
 	faKey,
 	faBookmark,
-	faSyncAlt,
-	faFolder
+	faSyncAlt
 } from '@fortawesome/free-solid-svg-icons'
+import{
+	faFolder,
+	faFolderOpen
+} from '@fortawesome/free-regular-svg-icons'
 import {faChrome} from '@fortawesome/free-brands-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+// import "node_modules/bootstrap/scss/bootstrap.scss"
 
 library.add(
 	faPencilRuler,
@@ -26,7 +30,8 @@ library.add(
 	faKey,
 	faBookmark,
 	faSyncAlt,
-	faFolder
+	faFolder,
+	faFolderOpen
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

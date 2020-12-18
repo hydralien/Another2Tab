@@ -29,19 +29,19 @@
 				<div class="trigger" id="extensions" v-on:click="navigate('chrome://extensions/')">
 					<font-awesome-icon :icon="['fab', 'chrome']"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="cleanup">
+				<div class="trigger" id="cleanup" v-on:click="navigate('chrome://settings/clearBrowserData')">
 					<font-awesome-icon icon="trash"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="cookies">
+				<div class="trigger" id="cookies" v-on:click="navigate('chrome://settings/cookies')">
 					<font-awesome-icon icon="cookie-bite"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="params">
+				<div class="trigger" id="params" v-on:click="navigate('chrome://settings')">
 					<font-awesome-icon icon="cogs"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="passwords">
+				<div class="trigger" id="passwords" v-on:click="navigate('chrome://settings/passwords')">
 					<font-awesome-icon icon="key"></font-awesome-icon>
 				</div>
-				<div class="trigger" id="all_bookmarks">
+				<div class="trigger" id="all_bookmarks" v-on:click="navigate('chrome://bookmarks')">
 					<font-awesome-icon icon="bookmark"></font-awesome-icon>
 				</div>
 				<a href="chrome://restart/">
@@ -52,7 +52,7 @@
 			</section>
 		</section>
 		<section id="bookmarks-and-extensions">
-			<BookmarksBlock v-bind:bookmarks="iconPot.bookmarkPot" v-bind:settings="settings"></BookmarksBlock>
+			<BookmarksBlock v-bind:settings="settings"></BookmarksBlock>
 
 			<ExtensionsBlock v-bind:extensions="iconPot.extensionPot" v-bind:settings="settings"></ExtensionsBlock>
 		</section>
@@ -90,7 +90,7 @@
 				settings: new Settings(
 					this.$chrome,
 					() => {
-						this.iconPot.loadPots(this.settings.sync.bookmarksRootNode.toString())
+						this.iconPot.loadPots()
 					}
 				),
 				iconPot: new IconPot(this.$chrome),
@@ -98,13 +98,14 @@
 		},
 		watch: {
 			'settings.sync.bookmarksRootNode': () => {
-				this.icons.loadPots(this.settings.sync.bookmarksRootNode)
+				this.icons.loadPots()
 			},
 		}
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
+  @import "node_modules/bootstrap/scss/bootstrap.scss";
 	#app {
 		font-family: Avenir, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -172,27 +173,35 @@
 	}
 
 	.icon {
-		text-align: center;
-		background-color: #DDDEE2;
-		border-radius: 5px;
-		padding: 10px;
-		margin: 10px;
+		text-align: left;
+		background-color: white;
+		border-radius: 2px;
 		overflow: hidden;
+    width: 200px;
+    height: 60px;
 
 		/* alignment */
 		cursor: pointer;
-		color: blue;
-		justify-content: center;
-		border: 1px solid transparent;
+		color: black;
+		justify-content: left;
+		border: 1px solid lightgray;
 
-		font-size: 3em;
+		font-size: 1em;
 
-		p {
-			margin: 0;
-			font-size: 50%;
-		}
+    &:hover {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    }
+    .icon-name-side {
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .icon-image-side {
+      color: rgb(114, 121, 130);
+      font-size: 1.3rem; // this is for fontawesome
+    }
 		img {
-			width: 50%;
+			//height: 50%;
+      width: 90%;
 		}
 	}
 
@@ -238,7 +247,32 @@
 
 	}
 
+  .icon-wrapper {
+    border-radius: 2px;
+  }
+  .icon-nested-1 {
+    background-color: rgba(200, 200, 200, 0.3);
+  }
+	.icon-nested-2 {
+    background-color: rgba(200, 200, 200, 0.6);
+  }
+	.icon-nested-3 {
+    background-color: rgba(200, 200, 200, 0.9);
+  }
 
+  .icon-list-position-first, .icon-list-position-middle, .icon-list-position-last {
+    border: 1px solid darkgray;
+  }
+  .icon-list-position-first {
+    border-right: 0;
+  }
+	.icon-list-position-middle {
+    border-right: 0;
+    border-left: 0;
+  }
+	.icon-list-position-last {
+    border-left: 0;
+  }
 	/*#settings span {*/
 	/*	font-size: 10pt;*/
 	/*}*/
