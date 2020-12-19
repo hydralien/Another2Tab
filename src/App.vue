@@ -261,17 +261,20 @@
   }
 
   .icon-list-position-first, .icon-list-position-middle, .icon-list-position-last {
-    border: 1px solid darkgray;
+    border: 1px solid lightgray;
   }
   .icon-list-position-first {
     border-right: 0;
+    border-radius: 2px 0 0 2px;
   }
 	.icon-list-position-middle {
     border-right: 0;
     border-left: 0;
+    border-radius: 0;
   }
 	.icon-list-position-last {
     border-left: 0;
+    border-radius: 0 2px 2px 0;
   }
 	/*#settings span {*/
 	/*	font-size: 10pt;*/

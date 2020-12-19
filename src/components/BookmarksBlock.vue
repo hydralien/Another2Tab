@@ -40,11 +40,15 @@ class BookmarksBlock extends Vue {
   toggleBookmark(bookmarkIndex) {
     const currentBookmark = {}
     Object.assign(currentBookmark, this.bookmarks[bookmarkIndex])
+    console.log(currentBookmark)
     if (currentBookmark.opened) {
       currentBookmark.opened = false
       currentBookmark.nestedLevel = currentBookmark.nestedLevel - 1
       currentBookmark.listPosition = ""
-      // TODO: remove all
+
+      const childCount = this.bookmarks.filter((bookmark) => bookmark.parentId === currentBookmark.id).length
+
+      this.bookmarks.splice(bookmarkIndex, childCount + 1, currentBookmark)
       return
     }
 
