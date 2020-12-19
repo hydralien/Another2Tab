@@ -52,9 +52,9 @@
 			</section>
 		</section>
 		<section id="bookmarks-and-extensions">
-			<BookmarksBlock v-bind:settings="settings"></BookmarksBlock>
+			<BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode"></BookmarksBlock>
 
-			<ExtensionsBlock v-bind:extensions="iconPot.extensionPot" v-bind:settings="settings"></ExtensionsBlock>
+			<ExtensionsBlock v-bind:settings="settings"></ExtensionsBlock>
 		</section>
 	</main>
 </template>
@@ -63,7 +63,6 @@
 	import BookmarksBlock from "@/components/BookmarksBlock";
 	import ExtensionsBlock from "@/components/ExtensionsBlock";
 	import Settings from "@/components/settings"
-	import IconPot from "@/components/iconpot";
 
 	export default {
 		name: 'App',
@@ -88,18 +87,9 @@
 		data: function () {
 			return {
 				settings: new Settings(
-					this.$chrome,
-					() => {
-						this.iconPot.loadPots()
-					}
-				),
-				iconPot: new IconPot(this.$chrome),
+					this.$chrome
+				)
 			};
-		},
-		watch: {
-			'settings.sync.bookmarksRootNode': () => {
-				this.icons.loadPots()
-			},
 		}
 	}
 </script>

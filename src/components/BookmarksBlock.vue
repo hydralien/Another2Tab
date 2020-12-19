@@ -20,7 +20,7 @@
 
 <script>
 import Bookmark from "@/components/Bookmark";
-import {Vue, Prop, Component} from 'vue-property-decorator'
+import {Vue, Prop, Watch, Component} from 'vue-property-decorator'
 
 export default @Component({
   components: {
@@ -31,11 +31,19 @@ class BookmarksBlock extends Vue {
   @Prop({type: Object, required: true})
   settings;
 
-  bookmarks = [];
+  @Prop({type: [String, Number], required: true})
+  rootNode;
+
+  @Watch('rootNode')
+  rootNodeChange(newRootNode) {
+    this.loadBookmarks(newRootNode)
+  }
 
   mounted() {
-    this.loadBookmarks(this.settings.sync.bookmarksRootNode)
+    this.loadBookmarks(this.rootNode)
   }
+
+  bookmarks = [];
 
   toggleBookmark(bookmarkIndex) {
     const currentBookmark = {}
@@ -44,7 +52,8 @@ class BookmarksBlock extends Vue {
     if (currentBookmark.opened) {
       currentBookmark.opened = false
       currentBookmark.nestedLevel = currentBookmark.nestedLevel - 1
-      currentBookmark.listPosition = ""
+      currentBookmark.listPosition = currentBookmark.prevListPosition || ""
+      currentBookmark.prevListPosition = ""
 
       const childCount = this.bookmarks.filter((bookmark) => bookmark.parentId === currentBookmark.id).length
 
@@ -53,6 +62,7 @@ class BookmarksBlock extends Vue {
     }
 
     currentBookmark.opened = true
+    if (currentBookmark.listPosition) currentBookmark.prevListPosition = currentBookmark.listPosition
     currentBookmark.listPosition = "first"
     currentBookmark.nestedLevel = (currentBookmark.nestedLevel || 0) + 1
     if (currentBookmark.nestedLevel > 3) currentBookmark.nestedLevel = 3 // no deep nesting for coloring reasons

@@ -11,11 +11,26 @@
 
 <script>
     import Extension from "@/components/Extension";
-    export default {
-        components: {Extension},
-        props: {
-            extensions: Array,
-            settings: Object
-        }
-    };
+    import {Vue, Prop, Component} from 'vue-property-decorator'
+
+    export default
+    @Component({
+      components: {
+        Extension
+      }
+    })
+    class ExtensionsBlock extends Vue {
+      @Prop({type: Object, required: true})
+      settings
+
+      extensions = []
+
+      mounted () {
+        this.$chrome.management.getAll(
+            (loadedExtensions) => {
+              this.extensions = loadedExtensions;
+            }
+        );
+      }
+    }
 </script>

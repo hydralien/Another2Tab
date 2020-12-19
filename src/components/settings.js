@@ -31,7 +31,7 @@ export default class Settings {
 			}
 		};
 
-		if (initCallback == null) {
+		if (!initCallback) {
 			initCallback = function () {
 				// nada
 			}
