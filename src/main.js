@@ -36,8 +36,8 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
+Vue.prototype.$chrome = chrome;
 
 new Vue({
-	render: h => h(App),
-	chrome
+	render: h => h(App)
 }).$mount('#app');
