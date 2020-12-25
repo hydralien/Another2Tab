@@ -13,11 +13,11 @@
     "description" : "Settings toggler title"
   },
   "settings" : {
-    "message" : "Settings",
+    "message" : "App settings",
     "description" : "Settings title"
   },
   "extensions" : {
-    "message" : "Extensions management page",
+    "message" : "Extensions management",
     "description" : "Extensions button title"
   },
   "tasks" : {
@@ -25,7 +25,7 @@
     "description" : "Task list button title"
   },
   "cleanup" : {
-    "message" : "Clean temporary data (cookies, cache etc.)",
+    "message" : "Temporary data",
     "description" : "Cleanup button title"
   },
   "params" : {
@@ -33,11 +33,11 @@
     "description" : "Title of Browser Settings shortcut"
   },
   "cookies" : {
-    "message" : "Manage browser cookies and site data",
+    "message" : "Cookies and site data",
     "description" : "Title of Cookie Management shortcut"
   },
   "passwords" : {
-    "message" : "Manage saved passwords",
+    "message" : "Saved passwords",
     "description" : "Title of Passwords Management shortcut"
   },
   "chrome_reload" : {
@@ -45,11 +45,11 @@
     "description" : "Title of Chrome restart shortcut"
   },
   "edit" : {
-    "message" : "Edit and arrange bookmarks list",
+    "message" : "Edit/arrange bookmarks",
     "description" : "Title of Bookmarks List Edit shortcut"
   },
   "all_bookmarks" : {
-    "message" : "Launch browser Bookmarks Management tool",
+    "message" : "Browser bookmarks",
     "description" : "Title of Bookmarks shortcut"
   },
   "settings_trigger" : {

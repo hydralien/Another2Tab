@@ -1,5 +1,5 @@
 <template>
-  <article id="bookmarks" class="items-group">
+  <article id="bookmarks" class="items-group mt-3">
     <section id="bookmarks-root-selection" v-if="settings.current.editMode">
       <h2>
         {Bookmarks Root}

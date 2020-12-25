@@ -4,9 +4,11 @@ import chrome from './components/chrome';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {
 	faPencilRuler,
+	faPen,
 	faSlidersH,
 	faTrash,
 	faCookieBite,
+	faCog,
 	faCogs,
 	faKey,
 	faBookmark,
@@ -22,9 +24,11 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 library.add(
 	faPencilRuler,
+	faPen,
 	faSlidersH,
 	faChrome,
 	faCogs,
+	faCog,
 	faCookieBite,
 	faTrash,
 	faKey,
@@ -36,7 +40,7 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
-Vue.prototype.$chrome = chrome;
+Vue.prototype.$chrome = chrome || {};
 
 new Vue({
 	render: h => h(App)
