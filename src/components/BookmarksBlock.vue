@@ -2,32 +2,36 @@
   <article id="bookmarks" class="items-group mt-3">
     <Modal :visible.sync="bookmarkEditVisible" @close="bookmarkEditVisible = false">
       <template slot="header">{{ tr("edit_bookmark") }}</template>
-      <div class="form-group text-left">
-        <h6>Icon</h6>
-        <input id="icon-selector" class="form-check-input" type="radio" :value="bookmarkToEdit.url" v-model="bookmarkToEdit.url">
-        <label for="icon-selector" class="form-check-label">
-          <img :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
-        </label>
-        <h6><label for="bookmark-name-edit">Title</label></h6>
-        <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
-        <h6><label for="bookmark-url-edit">Link</label></h6>
-        <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url">
+      <div class="form-group text-left bookmark-edit">
+        <form v-on:submit.prevent="saveBookmarkEdit">
+          <h6>Icon</h6>
+          <input id="icon-selector" class="mr-1" type="radio" :value="bookmarkToEdit.url" v-model="bookmarkToEdit.url">
+          <label for="icon-selector" class="form-check-label">
+            <img :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
+          </label>
+          <h6><label for="bookmark-name-edit">Title</label></h6>
+          <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
+          <h6><label for="bookmark-url-edit">Link</label></h6>
+          <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url">
+          <button type="submit" style="display: none"></button>
+        </form>
       </div>
       <template slot="footer">
         <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{Close}</button>
-        <button class="btn btn-primary" @click="saveBookmarkEdit">{Save}</button>
+        <button type="submit" class="btn btn-primary" :disabled="processSaving" @click="saveBookmarkEdit">{Save}
+        </button>
       </template>
     </Modal>
     <section id="bookmarks-root-selection" v-if="settings.current.editMode">
       <h2>
-        {{tr("bookmarks_root_header")}}
+        {{ tr("bookmarks_root_header") }}
       </h2>
       <section class="content" id="content-bookmarks-root-selection">
 
       </section>
     </section>
     <h2>
-      {{tr("bookmarks_header")}}
+      {{ tr("bookmarks_header") }}
     </h2>
     <section class="content" id="content-bookmarks">
       <Bookmark v-for="(bookmark,index) in bookmarks" v-bind:key="index" v-bind:bookmark="bookmark"
@@ -61,6 +65,8 @@ class BookmarksBlock extends Vue {
   bookmarkEditVisible = false
 
   bookmarkToEdit = {}
+
+  processSaving = false
 
   @Watch('rootNode')
   rootNodeChange(newRootNode) {
@@ -106,7 +112,22 @@ class BookmarksBlock extends Vue {
   }
 
   saveBookmarkEdit() {
-    this.bookmarkEditVisible = false
+    const updateObject = {
+      url: this.bookmarkToEdit.url,
+      title: this.bookmarkToEdit.title
+    }
+    this.$chrome.bookmarks.update(
+        this.bookmarkToEdit.id,
+        updateObject,
+        () => {
+          this.processSaving = false
+          this.bookmarkEditVisible = false
+          Object.assign(
+              this.bookmarks.find((bookmark) => bookmark.id === this.bookmarkToEdit.id),
+              updateObject
+          )
+        }
+    )
   }
 
   loadBookmarks(rootNode, insertAt, parentBookmark) {
@@ -135,8 +156,12 @@ class BookmarksBlock extends Vue {
 }
 </script>
 
-<style lang="less">
-.bookmark-item {
+<style lang="less" scoped>
+.bookmark-edit {
+  padding: 0 1em;
 
+  h6 {
+    margin: 1em 0 0;
+  }
 }
 </style>
