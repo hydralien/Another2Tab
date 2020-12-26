@@ -1,7 +1,7 @@
 <template>
   <div class="m-0 p-2 icon-wrapper">
     <a v-bind:title="extension.name" :class="[!extension.enabled ? 'disabled' : '']">
-      <div class="p-2 row m-0 icon bookmark-item" v-on:click="navigate">
+      <div class="row m-0 icon bookmark-item" v-on:click="navigate" :style="bookmarkStyle">
         <div class="py-0 pl-0 pr-1 col-2 icon-image-side">
           <img v-bind:src="iconUrl" v-bind:origin="extension.id" v-bind:alt="extension.name">
         </div>
@@ -15,30 +15,30 @@
 </template>
 
 <script>
-export default {
-  props: {
-    extension: Object,
-    settings: Object
-  },
-  computed: {
-    iconUrl: function () {
-      return "chrome://extension-icon/" + this.extension.id + "/128/1";
-    },
-  },
-  methods: {
-    navigate() {
-      if (!this.extension.enabled) return
+import {Component, Prop} from 'vue-property-decorator'
+import Bookmark from './Bookmark.vue'
 
-      if (this.extension.isApp) {
-        this.$chrome.management.launchApp(this.extension.id);
-      } else {
-        const extUrl = this.extension.optionsUrl || this.extension.homepageUrl
-        this.$chrome.tabs.create({url: extUrl});
-      }
-      // window.close();
-    }
+export default @Component
+class Extension extends Bookmark {
+  @Prop({type: Object, required: true})
+  extension
+
+  get iconUrl() {
+    return "chrome://extension-icon/" + this.extension.id + "/128/1";
   }
-};
+
+  navigate() {
+    if (!this.extension.enabled) return
+
+    if (this.extension.isApp) {
+      this.$chrome.management.launchApp(this.extension.id);
+    } else {
+      const extUrl = this.extension.optionsUrl || this.extension.homepageUrl
+      this.$chrome.tabs.create({url: extUrl});
+    }
+    // window.close();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

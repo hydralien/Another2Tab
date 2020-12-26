@@ -1,30 +1,51 @@
 <template>
   <article id="bookmarks" class="items-group mt-3">
+    <Modal :visible.sync="bookmarkEditVisible" @close="bookmarkEditVisible = false">
+      <template slot="header">{{ tr("edit_bookmark") }}</template>
+      <div class="form-group text-left">
+        <h6>Icon</h6>
+        <input id="icon-selector" class="form-check-input" type="radio" :value="bookmarkToEdit.url" v-model="bookmarkToEdit.url">
+        <label for="icon-selector" class="form-check-label">
+          <img :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
+        </label>
+        <h6><label for="bookmark-name-edit">Title</label></h6>
+        <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
+        <h6><label for="bookmark-url-edit">Link</label></h6>
+        <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url">
+      </div>
+      <template slot="footer">
+        <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{Close}</button>
+        <button class="btn btn-primary" @click="saveBookmarkEdit">{Save}</button>
+      </template>
+    </Modal>
     <section id="bookmarks-root-selection" v-if="settings.current.editMode">
       <h2>
-        {Bookmarks Root}
+        {{tr("bookmarks_root_header")}}
       </h2>
       <section class="content" id="content-bookmarks-root-selection">
 
       </section>
     </section>
     <h2>
-      {Bookmarks}
+      {{tr("bookmarks_header")}}
     </h2>
     <section class="content" id="content-bookmarks">
       <Bookmark v-for="(bookmark,index) in bookmarks" v-bind:key="index" v-bind:bookmark="bookmark"
-                v-bind:settings="settings" :index="index" @directoryToggle="toggleBookmark"></Bookmark>
+                v-bind:settings="settings" :edit-mode="editMode" :index="index"
+                @edit="editBookmark" @directoryToggle="toggleBookmark"></Bookmark>
     </section>
   </article>
 </template>
 
 <script>
 import Bookmark from "@/components/Bookmark";
+import Modal from "@/components/Modal";
 import {Vue, Prop, Watch, Component} from 'vue-property-decorator'
 
 export default @Component({
   components: {
-    Bookmark
+    Bookmark,
+    Modal
   }
 })
 class BookmarksBlock extends Vue {
@@ -33,6 +54,13 @@ class BookmarksBlock extends Vue {
 
   @Prop({type: [String, Number], required: true})
   rootNode;
+
+  @Prop({type: Boolean, default: false})
+  editMode
+
+  bookmarkEditVisible = false
+
+  bookmarkToEdit = {}
 
   @Watch('rootNode')
   rootNodeChange(newRootNode) {
@@ -44,6 +72,11 @@ class BookmarksBlock extends Vue {
   }
 
   bookmarks = [];
+
+  editBookmark(bookmark) {
+    this.bookmarkToEdit = bookmark
+    this.bookmarkEditVisible = true
+  }
 
   toggleBookmark(bookmarkIndex) {
     const currentBookmark = {}
@@ -70,6 +103,10 @@ class BookmarksBlock extends Vue {
     this.bookmarks.splice(bookmarkIndex, 1, currentBookmark)
     // this.$set(this.bookmarks, bookmarkIndex, currentBookmark)
     this.loadBookmarks(currentBookmark.id, bookmarkIndex + 1, currentBookmark)
+  }
+
+  saveBookmarkEdit() {
+    this.bookmarkEditVisible = false
   }
 
   loadBookmarks(rootNode, insertAt, parentBookmark) {

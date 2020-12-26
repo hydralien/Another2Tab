@@ -105,8 +105,12 @@
     "message" : "Bookmarks",
     "description" : "Title of a bookmarks block"
   },
+	"bookmarks_root_header" : {
+    "message" : "Bookmarks root",
+    "description" : "Title of a bookmarks root block"
+  },
 	"extensions_header" : {
-    "message" : "Extensions (launch-able)",
+    "message" : "Extensions",
     "description" : "Title of a extensions block"
   },
 	"root_bookmark_change_link" : {
@@ -134,8 +138,52 @@
     "description" : "Hint for icon cache switch"
 	},
   "edit_bookmark" : {
-    "message" : "Editing '{{name}}' bookmark",
+    "message" : "Editing bookmark",
     "description" : "Header for the edit bookmark modal window"
+  },
+  "copy_action" : {
+    "message": "Copy",
+    "description": "Copy action"
+  },
+  "copied_action" : {
+    "message": "Copied!",
+    "description": "Copied action"
+  },
+  "chrome_reload_explanation" : {
+    "message": "Unfortunately Chrome cannot be restarted programmatically - to reload it, please copy the link below, paste it to the browsed address bar and press Enter",
+    "description": "Why browser cannot be restarted automatically"
+  },
+  "save_settings" : {
+    "message": "Save settings",
+    "description": "Saving settings"
+  },
+  "tile_size" : {
+    "message": "Tile size",
+    "description": ""
+  },
+  "size_small" : {
+    "message": "small",
+    "description": ""
+  },
+  "size_medium" : {
+    "message": "medium",
+    "description": ""
+  },
+  "size_large" : {
+    "message": "large",
+    "description": ""
+  },
+  "bgcolor" : {
+    "message": "Background color",
+    "description": ""
+  },
+  "bgimage" : {
+    "message": "Background image URL",
+    "description": ""
+  },
+  "edit_mode_message" : {
+    "message": "Edit mode is enabled - you can now drag tiles around to rearrange them, and click on them to edit.",
+    "description": ""
   }
 }
     

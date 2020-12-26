@@ -1,10 +1,11 @@
 <template>
     <article id="extensions" class="items-group">
         <h2>
-            {Extensions}
+            {{tr("extensions_header")}}
         </h2>
         <section class="content" id="content-extensions">
-            <Extension v-for="(extension,id) in extensions" v-bind:key="id" v-bind:extension="extension" v-bind:settings="settings"></Extension>
+            <Extension v-for="(extension,id) in extensions" v-bind:key="id" v-bind:extension="extension"
+                       :edit-mode="editMode" v-bind:settings="settings"></Extension>
         </section>
     </article>
 </template>
@@ -22,6 +23,9 @@
     class ExtensionsBlock extends Vue {
       @Prop({type: Object, required: true})
       settings
+
+      @Prop({type: Boolean, default: false})
+      editMode
 
       extensions = []
 

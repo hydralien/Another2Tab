@@ -14,10 +14,10 @@ export default class Settings {
 		};
 
 		this.sync = {
-			icon: {
-				width: 64,
-				backgroundColor: "#55ffaa"
-			},
+			tileSize: 'size-medium',
+			backgroundColor: '#ffffff',
+			backgroundImageUrl: '',
+			highlightedIcons: {},
 			// bookmarksRootNode: 0,
 			bookmarksRootNode: 1, // this has to be configurable
 		};
@@ -46,14 +46,14 @@ export default class Settings {
 			//[Object.keys(this.sync)],
 			this.sync,
 			storedSyncSettings => {
-				this.sync = {...this.sync, ...storedSyncSettings};
+				Object.assign(this.sync, storedSyncSettings);
 				initCallback();
 
 				// this needs to be made concurrent with sync load, at some point
 				this.chrome.storage.local.get(
 					this.local,
 					storedLocalSettings => {
-						this.local = {...this.local, ...storedLocalSettings};
+						Object.assign(this.local, storedLocalSettings);
 					}
 				);
 			}
@@ -85,10 +85,10 @@ export default class Settings {
 
 	getCachedLocalIcon(iconUrl) {
 		let cachedIcon = this.local.iconCache[iconUrl];
-		if (cachedIcon == null) {return}
+
 		let now = new Date();
-		if (parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
-			return;
+		if (!cachedIcon || parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+			return "chrome://favicon/" + iconUrl;
 		}
 
 		return cachedIcon.content;

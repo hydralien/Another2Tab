@@ -1,21 +1,78 @@
 <template>
-  <main id="app">
-    <section id="settings-container" :class="[settingsVisible ? 'settings-open' : '']">
+  <main id="app" :style="appStyle">
+    <Modal :visible.sync="chromeRestartVisible" @close="chromeRestartVisible=false">
+      <template slot="header">{{ tr("chrome_reload") }}</template>
+
+      <p class="text-left">
+        {{ tr("chrome_reload_explanation") }}
+      </p>
+      <div class="input-group mb-3 form-group">
+        <label for="chrome-restart-url" class="sr-only">Browser restart link</label>
+        <input id="chrome-restart-url" class="form-control" readonly="readonly" :value="chromeRestartUrl"/>
+        <div class="input-group-append">
+          <button class="btn btn-primary" v-clipboard="chromeRestartUrl" @success="copyTextChange">{{
+              copyText
+            }}
+          </button>
+        </div>
+      </div>
+
+      <template slot="footer">
+        <button class="btn btn-outline-primary" @click="chromeRestartVisible=false">OK</button>
+      </template>
+    </Modal>
+    <section id="settings-container" :class="[settingsVisible ? 'settings-open' : '']" :style="menuStyle">
       <h3>
         AnotherTab
       </h3>
       <ul class="action-list">
         <li>
           <a v-on:click="toggleEdit">
-            <font-awesome-icon icon="pencil-ruler"></font-awesome-icon>
+            <font-awesome-icon icon="pen"></font-awesome-icon>
             {{ tr("edit") }}
           </a>
+          <div :class="['edit-mode-info', 'app-settings', editMode ? 'app-settings-visible' : '']">
+            <p>
+              {{tr("edit_mode_message")}}
+            </p>
+          </div>
         </li>
         <li>
-          <a>
+          <a @click="appSettingsVisible=!appSettingsVisible">
             <font-awesome-icon icon="cog"></font-awesome-icon>
             {{ tr("settings") }}
           </a>
+          <div :class="['app-settings', appSettingsVisible ? 'app-settings-visible' : '']">
+            <div class="form-group">
+              <h6>{{tr("tile_size")}}</h6>
+              <ul class="radio-list">
+                <li>
+                  <input type="radio" class="" id="tile-size-selector-small" value="size-small"
+                         v-model="settings.sync.tileSize"/>
+                  <label for="tile-size-selector-small" class=""> {{tr("size_small")}}</label>
+                </li>
+                <li>
+                  <input type="radio" class="" id="tile-size-selector-medium" value="size-medium"
+                         v-model="settings.sync.tileSize"/>
+                  <label for="tile-size-selector-medium" class=""> {{tr("size_medium")}}</label>
+                </li>
+                <li>
+                  <input type="radio" class="" id="tile-size-selector-large" value="size-large"
+                         v-model="settings.sync.tileSize"/>
+                  <label for="tile-size-selector-large" class=""> {{tr("size_large")}}</label>
+                </li>
+              </ul>
+            </div>
+            <div class="form-group">
+              <h6><label for="background-color-selector">{{tr("bgcolor")}}</label></h6>
+              <input class="form-control" id="background-color-selector" type="color"
+                     v-model="settings.sync.backgroundColor">
+              <h6><label for="background-image-selector">{{tr("bgimage")}}</label></h6>
+              <input class="form-control" id="background-image-selector" type="text"
+                     v-model="settings.sync.backgroundImageUrl">
+            </div>
+            <button class="btn btn-primary" @click="saveSettings">{{tr("save_settings")}}</button>
+          </div>
         </li>
       </ul>
       <h3 class="mt-3">Chrome</h3>
@@ -63,17 +120,31 @@
           </a>
         </li>
       </ul>
+
+      <div class="references text-center">
+        by
+        <a href="https://hydralien.net" target="_blank">Boris Turchik</a>
+<!--        <a href="http://www.elenaborisova.com/" target="_blank">Elena Borisova</a>-->
+      </div>
     </section>
-    <section id="controls-container">
+
+
+    <section id="controls-container" :style="menuStyle">
       <a id="settings-trigger" v-on:click="toggleSettings" class="settings-trigger" :title="tr('settings')">
         <font-awesome-icon icon="cogs"></font-awesome-icon>
       </a>
-
+      <a id="edit-trigger" v-on:click="toggleEdit"
+         :class="['shortcut-secondary', !settingsVisible ? 'shortcut-secondary-visible' : '', editMode ? 'shortcut-secondary-active' : '']"
+         :title="tr('edit')"
+      >
+        <font-awesome-icon icon="pen"></font-awesome-icon>
+      </a>
     </section>
-    <section id="bookmarks-and-extensions">
-      <BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode"></BookmarksBlock>
 
-      <ExtensionsBlock v-bind:settings="settings"></ExtensionsBlock>
+    <section id="bookmarks-and-extensions" :class="['size-medium', settings.sync.tileSize]">
+      <BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode" :edit-mode="editMode"></BookmarksBlock>
+
+      <ExtensionsBlock v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
     </section>
   </main>
 </template>
@@ -81,259 +152,81 @@
 <script>
 import BookmarksBlock from "@/components/BookmarksBlock";
 import ExtensionsBlock from "@/components/ExtensionsBlock";
+import Modal from "@/components/Modal";
 import Settings from "@/components/settings"
+import {Vue, Watch, Component} from 'vue-property-decorator'
 
-export default {
-  name: 'App',
+export default @Component({
   components: {
     BookmarksBlock,
-    ExtensionsBlock
-  },
-  methods: {
-    toggleSettings() {
-      this.$data.settingsVisible = !this.$data.settingsVisible
-    },
-    toggleEdit() {
-      this.settings.current.editMode = !this.settings.current.editMode;
-    },
-    saveSettings() {
-      this.settings.saveSyncSettings();
-    },
-    navigate(targetUrl) {
-      this.$chrome.tabs.create({url: targetUrl});
-    },
-    restart() {
-    }
-  },
-  data: function () {
+    ExtensionsBlock,
+    Modal
+  }
+})
+class App extends Vue {
+  settings = new Settings(
+      this.$chrome
+  )
+  editMode = false
+  settingsVisible = false
+  appSettingsVisible = false
+  chromeRestartVisible = false
+  chromeRestartUrl = "chrome://restart/"
+  copyText = this.tr("copy_action")
+
+  get menuStyle() {
     return {
-      settings: new Settings(
-          this.$chrome
-      ),
-      settingsVisible: false
-    };
+      'opacity': (this.settingsVisible ? 1 : (this.settings.sync.backgroundImageUrl ? 0.8 : 1))
+    }
+  }
+
+  get appStyle() {
+    const styles = {
+      'background-color': this.settings.sync.backgroundColor,
+      'background-repeat': 'no-repeat',
+      'background-size': 'cover'
+    }
+    if (this.settings.sync.backgroundImageUrl) {
+      styles['background-image'] = `url("${this.settings.sync.backgroundImageUrl}")`
+    }
+
+    return styles
+  }
+
+  @Watch('settings.sync.tileSize')
+  settingsChange() {
+    // this.settings.saveSyncSettings();
+  }
+
+  toggleSettings() {
+    this.settingsVisible = !this.settingsVisible
+  }
+
+  toggleEdit() {
+    this.editMode = !this.editMode;
+  }
+
+  saveSettings() {
+    this.settings.saveSyncSettings();
+  }
+
+  navigate(targetUrl) {
+    this.$chrome.tabs.create({url: targetUrl});
+  }
+
+  restart() {
+    this.chromeRestartVisible = true
+  }
+
+  copyTextChange() {
+    const prevCopyText = this.copyText;
+    this.copyText = this.tr("copied_action");
+    setTimeout(() => {
+      this.copyText = prevCopyText;
+    }, 2000);
   }
 }
 </script>
 
-<style lang="scss">
-@import "node_modules/bootstrap/scss/bootstrap.scss";
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-content: stretch;
-}
-
-#settings-container {
-  width: 230px;
-  margin-left: -230px;
-  background-color: lightgray;
-  padding: 3rem 0 3rem 1rem;
-  text-align: left;
-  overflow-y: auto;
-  transition: margin-left 0.5s;
-  color: darkslategray;
-
-  h3 {
-    color: black;
-  }
-  label {
-    display: block;
-  }
-
-  a {
-    cursor: pointer;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-}
-
-.settings-open {
-  margin-left: 0 !important;
-}
-
-#bookmarks-and-extensions {
-  flex: 1;
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-
-.content {
-  margin: 5px 70px;
-  padding: 5px;
-  z-index: 1;
-}
-
-#content-bookmarks, #content-extensions {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#controls-container {
-  width: 48px;
-  /*position: relative;*/
-  background-color: lightgray;
-  overflow-y: auto;
-  transition: display 0.5s;
-  padding-top: 1rem;
-
-  .edit-mode {
-    filter: brightness(50%);
-  }
-}
-
-.controls-hidden {
-  display: none;
-}
-
-.controls {
-  font-size: 2em;
-  color: slategrey;
-  /*filter: drop-shadow(5px 4px 3px #888);*/
-}
-
-.icon {
-  text-align: left;
-  background-color: white;
-  border-radius: 2px;
-  overflow: hidden;
-  width: 200px;
-  height: 60px;
-
-  /* alignment */
-  cursor: pointer;
-  color: black;
-  justify-content: left;
-  border: 1px solid lightgray;
-
-  font-size: 1em;
-
-  &:hover {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
-  }
-
-  .icon-name-side {
-    overflow: hidden;
-    font-family: sans-serif;
-  }
-
-  .icon-image-side {
-    color: rgb(114, 121, 130);
-    font-size: 1.3rem; // this is for fontawesome
-  }
-
-  img {
-    //height: 50%;
-    width: 90%;
-  }
-}
-
-.items-group {
-  header {
-    margin: 10px 70px;
-    padding: 0;
-    color: grey;
-    font-weight: bold;
-    font-size: 14pt;
-  }
-}
-
-header {
-  h2 {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.settings-trigger {
-  cursor: pointer;
-  display: block;
-  font-size: 1.5rem;
-  color: darkslategrey;
-}
-
-.trigger, .trigger img {
-  width: 32px;
-  height: 32px;
-}
-
-.trigger:hover, .trigger.active {
-  background-color: gray;
-}
-
-#chrome-tools-controls {
-  width: 32px;
-
-  .trigger {
-    float: left;
-  }
-
-}
-
-.icon-wrapper {
-  border-radius: 2px;
-}
-
-.icon-nested-1 {
-  background-color: rgba(200, 200, 200, 0.3);
-}
-
-.icon-nested-2 {
-  background-color: rgba(200, 200, 200, 0.6);
-}
-
-.icon-nested-3 {
-  background-color: rgba(200, 200, 200, 0.9);
-}
-
-.icon-list-position-first, .icon-list-position-middle, .icon-list-position-last {
-  border: 1px solid lightgray;
-}
-
-.icon-list-position-first {
-  border-right: 0;
-  border-radius: 2px 0 0 2px;
-}
-
-.icon-list-position-middle {
-  border-right: 0;
-  border-left: 0;
-  border-radius: 0;
-}
-
-.icon-list-position-last {
-  border-left: 0;
-  border-radius: 0 2px 2px 0;
-}
-
-/*#settings span {*/
-/*	font-size: 10pt;*/
-/*}*/
-
-/*#settings-holder {*/
-/*	width: 32px;*/
-/*}*/
-
-.action-list {
-  list-style-type: none;
-  padding: 0 0 0 0.5rem;
-  li {
-    margin: 0.3rem 0;
-  }
-}
-
+<style lang="scss" src="./App.scss">
 </style>

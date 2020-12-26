@@ -20,6 +20,9 @@ import{
 } from '@fortawesome/free-regular-svg-icons'
 import {faChrome} from '@fortawesome/free-brands-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import VueClipboards from 'vue-clipboards';
+
+Vue.use(VueClipboards);
 // import "node_modules/bootstrap/scss/bootstrap.scss"
 
 library.add(

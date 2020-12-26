@@ -11,8 +11,8 @@ Vue.mixin( {
 		this.$tr = this.$chrome.i18n.getMessage;
 	},
 	methods: {
-		tr(tagName) {
-			return this.$chrome.i18n.getMessage(tagName);
+		tr(tagName, params) {
+			return this.$chrome.i18n.getMessage(tagName, params);
 		}
 	}
 } );
