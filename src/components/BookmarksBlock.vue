@@ -42,7 +42,7 @@
       </p>
       <section class="content tiles" id="content-bookmarks-root-selection">
         <Bookmark v-for="(bookmark,index) in rootMarks" v-bind:key="index" v-bind:bookmark="bookmark"
-                  v-bind:settings="settings" :edit-mode="editMode" :index="index"
+                  v-bind:settings="settings" :index="index"
                   @directoryToggle="toggleBookmark" @root="rootSelection"></Bookmark>
       </section>
 

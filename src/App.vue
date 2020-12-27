@@ -148,7 +148,7 @@
     </section>
 
     <section id="bookmarks-and-extensions" :class="['size-medium', settings.sync.tileSize]">
-      <BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode"></BookmarksBlock>
+      <BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode" :edit-mode="editMode"></BookmarksBlock>
 
       <ExtensionsBlock v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
     </section>
