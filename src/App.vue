@@ -67,7 +67,13 @@
               <h6><label for="background-color-selector">{{tr("bgcolor")}}</label></h6>
               <input class="form-control" id="background-color-selector" type="color"
                      v-model="settings.sync.backgroundColor">
-              <h6><label for="background-image-selector">{{tr("bgimage")}}</label></h6>
+              <h6>
+                <label for="background-image-selector">{{tr("bgimage")}}</label>
+                 <a @click="imageUrlHint = !imageUrlHint" class="ml-1">ⓘ</a>
+                </h6>
+              <p class="image-url-hint" v-if="imageUrlHint">
+                {{tr("image_url_hint")}}
+              </p>
               <input class="form-control" id="background-image-selector" type="text"
                      v-model="settings.sync.backgroundImageUrl">
             </div>
@@ -171,6 +177,7 @@ class App extends Vue {
   settingsVisible = false
   appSettingsVisible = false
   chromeRestartVisible = false
+  imageUrlHint = false
   chromeRestartUrl = "chrome://restart/"
   copyText = this.tr("copy_action")
 
