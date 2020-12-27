@@ -232,6 +232,10 @@
   "image_url_hint" : {
     "message": "A hint on finding images: go to images.google.com, search for the interesting subject (e.g. \"mountains\"), select \"Tools > Format > Large\" to get high quality images, select an interesting one (click it), left-click on its large preview to get the menu, select \"Copy Image Address\" and then paste the copied address here",
     "description": ""
+  },
+  "root_select_message" : {
+    "message": "Select the directory for the bookmarks to display",
+    "description": ""
   }
 }
     

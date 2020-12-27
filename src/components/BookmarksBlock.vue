@@ -10,9 +10,9 @@
             <font-awesome-icon v-if="isEditFolder" :icon="['far', 'folder']" class="directory"></font-awesome-icon>
             <img v-else :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
           </label>
-          <h6><label for="bookmark-name-edit">{{tr("title")}}</label></h6>
+          <h6><label for="bookmark-name-edit">{{ tr("title") }}</label></h6>
           <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
-          <h6><label for="bookmark-url-edit">{{tr("link")}}</label></h6>
+          <h6><label for="bookmark-url-edit">{{ tr("link") }}</label></h6>
           <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url"
                  :disabled="isEditFolder"
                  :placeholder="isEditFolder ? `(${tr('directory')})` : ''"
@@ -22,33 +22,39 @@
       </div>
       <template slot="footer">
         <p v-if="confirmDelete" class="text-danger">
-          {{tr("delete_message")}}
+          {{ tr("delete_message") }}
         </p>
-        <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{{tr("close")}}</button>
+        <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{{ tr("close") }}</button>
         <button class="btn btn-danger" @click="deleteBookmark" :disabled="processSaving">
-          {{confirmDelete ? tr("confirm_delete") : tr("delete")}}
+          {{ confirmDelete ? tr("confirm_delete") : tr("delete") }}
         </button>
         <button type="submit" class="btn btn-primary" :disabled="processSaving" @click="saveBookmarkEdit">
-          {{tr("save")}}
+          {{ tr("save") }}
         </button>
       </template>
     </Modal>
-    <section id="bookmarks-root-selection" v-if="settings.current.editMode">
+    <section id="bookmarks-root-selection" v-if="this.editMode">
       <h2>
         {{ tr("bookmarks_root_header") }}
       </h2>
-      <section class="content" id="content-bookmarks-root-selection">
-
+      <p>
+        {{tr("root_select_message")}}
+      </p>
+      <section class="content tiles" id="content-bookmarks-root-selection">
+        <Bookmark v-for="(bookmark,index) in rootMarks" v-bind:key="index" v-bind:bookmark="bookmark"
+                  v-bind:settings="settings" :edit-mode="editMode" :index="index"
+                  @directoryToggle="toggleBookmark" @root="rootSelection"></Bookmark>
       </section>
+
     </section>
     <h2>
       {{ tr("bookmarks_header") }}
     </h2>
-    <section class="content" id="content-bookmarks">
+    <draggable v-model="bookmarks" :move="dragMove" @change="dragEnd" class="content tiles" id="content-bookmarks">
       <Bookmark v-for="(bookmark,index) in bookmarks" v-bind:key="index" v-bind:bookmark="bookmark"
                 v-bind:settings="settings" :edit-mode="editMode" :index="index"
                 @edit="editBookmark" @directoryToggle="toggleBookmark"></Bookmark>
-    </section>
+    </draggable>
   </article>
 </template>
 
@@ -56,11 +62,13 @@
 import Bookmark from "@/components/Bookmark";
 import Modal from "@/components/Modal";
 import {Vue, Prop, Watch, Component} from 'vue-property-decorator'
+import draggable from 'vuedraggable'
 
 export default @Component({
   components: {
     Bookmark,
-    Modal
+    Modal,
+    draggable
   }
 })
 class BookmarksBlock extends Vue {
@@ -81,6 +89,10 @@ class BookmarksBlock extends Vue {
 
   processSaving = false
 
+  bookmarks = [];
+
+  rootMarks = []
+
   @Watch('bookmarkEditVisible')
   bookmarkEditVisibleChange(value) {
     if (value) this.confirmDelete = false
@@ -91,14 +103,72 @@ class BookmarksBlock extends Vue {
     this.loadBookmarks(newRootNode)
   }
 
+  @Watch('editMode')
+  editModeChange(value) {
+    if (!value) return
+    this.$chrome.bookmarks.getChildren(
+        '0',
+        (loadedBookmarks) => {
+          this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
+        }
+    )
+  }
+
   mounted() {
     this.loadBookmarks(this.rootNode)
   }
 
-  bookmarks = [];
-
   get isEditFolder() {
     return this.bookmarkToEdit.url === undefined;
+  }
+
+  dragMove() {
+    return this.editMode
+  }
+
+  dragEnd(moveParams) {
+    const newIndex = moveParams.moved.newIndex
+    const updateParams = {}
+    const styleParams = {
+      listPosition: undefined,
+      nestedLevel: undefined
+    }
+    const previousItem = newIndex > 0 ? this.bookmarks[newIndex - 1] : undefined
+    if (previousItem.nestedLevel) {
+      styleParams.nestedLevel = previousItem.nestedLevel
+      if (previousItem.listPosition === 'first') {
+        updateParams.parentId = previousItem.id
+        styleParams.listPosition = 'middle'
+        updateParams.index = 0
+      } else if (previousItem.listPosition === 'last') {
+        updateParams.parentId = previousItem.parentId
+        styleParams.listPosition = 'last'
+        updateParams.index = previousItem.index + 1
+        previousItem.listPosition = 'middle'
+      } else {
+        styleParams.listPosition = 'middle'
+        updateParams.index = previousItem.index + 1
+        updateParams.parentId = previousItem.parentId
+      }
+    } else if (previousItem) {
+      updateParams.parentId = previousItem.parentId
+      updateParams.index = previousItem.index + 1
+    } else {
+      updateParams.index = 0
+      updateParams.parentId = this.rootNode
+    }
+
+    Object.assign(this.bookmarks[newIndex], styleParams)
+    Object.assign(this.bookmarks[newIndex], updateParams)
+    this.$chrome.bookmarks.move(
+        this.bookmarks[newIndex].id,
+        updateParams,
+        () => {}
+    )
+  }
+
+  rootSelection(rootNode) {
+    console.log(rootNode)
   }
 
   editBookmark(bookmark) {

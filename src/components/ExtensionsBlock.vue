@@ -21,7 +21,7 @@
     <h2>
       {{ tr("extensions_header") }}
     </h2>
-    <section class="content" id="content-extensions">
+    <section class="content tiles" id="content-extensions">
       <Extension v-for="(extension,id) in extensions" v-bind:key="id" v-bind:extension="extension"
                  :edit-mode="editMode" v-bind:settings="settings" @edit="editExtension"></Extension>
     </section>
