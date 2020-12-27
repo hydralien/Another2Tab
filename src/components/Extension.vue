@@ -1,7 +1,7 @@
 <template>
   <div class="m-0 p-2 icon-wrapper">
     <a v-bind:title="extension.name" :class="[!extension.enabled ? 'disabled' : '']">
-      <div class="row m-0 icon bookmark-item" v-on:click="navigate" :style="bookmarkStyle">
+      <div class="row m-0 icon bookmark-item extension-item" v-on:click="navigate" :style="extensionStyle">
         <div class="py-0 pl-0 pr-1 col-2 icon-image-side">
           <img v-bind:src="iconUrl" v-bind:origin="extension.id" v-bind:alt="extension.name">
         </div>
@@ -27,7 +27,17 @@ class Extension extends Bookmark {
     return "chrome://extension-icon/" + this.extension.id + "/128/1";
   }
 
+  get extensionStyle() {
+    const bookmarkStyle = this.bookmarkStyle
+    bookmarkStyle['cursor'] = 'pointer'
+    return bookmarkStyle
+  }
+
   navigate() {
+    if (this.editMode) {
+      this.$emit('edit', this.extension)
+      return;
+    }
     if (!this.extension.enabled) return
 
     if (this.extension.isApp) {

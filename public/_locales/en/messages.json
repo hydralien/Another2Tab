@@ -141,6 +141,10 @@
     "message" : "Editing bookmark",
     "description" : "Header for the edit bookmark modal window"
   },
+  "edit_extension" : {
+    "message" : "Editing extension",
+    "description" : "Header for the edit bookmark modal window"
+  },
   "copy_action" : {
     "message": "Copy",
     "description": "Copy action"
@@ -183,6 +187,46 @@
   },
   "edit_mode_message" : {
     "message": "Edit mode is enabled - you can now drag tiles around to rearrange them, and click on them to edit.",
+    "description": ""
+  },
+  "title" : {
+    "message": "Title",
+    "description": ""
+  },
+  "icon" : {
+    "message": "Icon",
+    "description": ""
+  },
+  "link" : {
+    "message": "Link",
+    "description": ""
+  },
+  "save" : {
+    "message": "Save",
+    "description": ""
+  },
+  "close" : {
+    "message": "Close",
+    "description": ""
+  },
+  "delete" : {
+    "message": "Delete",
+    "description": ""
+  },
+  "delete_message" : {
+    "message": "You sure you want to delete it? (if it's a directory, all its content will be deleted too)",
+    "description": ""
+  },
+  "confirm_delete" : {
+    "message": "Yes please delete",
+    "description": ""
+  },
+  "type" : {
+    "message": "Type",
+    "description": ""
+  },
+  "directory" : {
+    "message": "Directory",
     "description": ""
   }
 }

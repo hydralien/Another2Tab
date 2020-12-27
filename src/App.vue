@@ -122,8 +122,8 @@
       </ul>
 
       <div class="references text-center">
-        by
-        <a href="https://hydralien.net" target="_blank">Boris Turchik</a>
+<!--        by-->
+<!--        <a href="https://hydralien.net" target="_blank">Boris Turchik</a>-->
 <!--        <a href="http://www.elenaborisova.com/" target="_blank">Elena Borisova</a>-->
       </div>
     </section>

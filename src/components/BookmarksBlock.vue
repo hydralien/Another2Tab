@@ -4,21 +4,32 @@
       <template slot="header">{{ tr("edit_bookmark") }}</template>
       <div class="form-group text-left bookmark-edit">
         <form v-on:submit.prevent="saveBookmarkEdit">
-          <h6>Icon</h6>
+          <h6>{{ tr("icon") }}</h6>
           <input id="icon-selector" class="mr-1" type="radio" :value="bookmarkToEdit.url" v-model="bookmarkToEdit.url">
           <label for="icon-selector" class="form-check-label">
-            <img :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
+            <font-awesome-icon v-if="isEditFolder" :icon="['far', 'folder']" class="directory"></font-awesome-icon>
+            <img v-else :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
           </label>
-          <h6><label for="bookmark-name-edit">Title</label></h6>
+          <h6><label for="bookmark-name-edit">{{tr("title")}}</label></h6>
           <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
-          <h6><label for="bookmark-url-edit">Link</label></h6>
-          <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url">
+          <h6><label for="bookmark-url-edit">{{tr("link")}}</label></h6>
+          <input id="bookmark-url-edit" type="text" class="form-control" v-model="bookmarkToEdit.url"
+                 :disabled="isEditFolder"
+                 :placeholder="isEditFolder ? `(${tr('directory')})` : ''"
+          >
           <button type="submit" style="display: none"></button>
         </form>
       </div>
       <template slot="footer">
-        <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{Close}</button>
-        <button type="submit" class="btn btn-primary" :disabled="processSaving" @click="saveBookmarkEdit">{Save}
+        <p v-if="confirmDelete" class="text-danger">
+          {{tr("delete_message")}}
+        </p>
+        <button class="btn btn-outline-primary" @click="bookmarkEditVisible = false">{{tr("close")}}</button>
+        <button class="btn btn-danger" @click="deleteBookmark" :disabled="processSaving">
+          {{confirmDelete ? tr("confirm_delete") : tr("delete")}}
+        </button>
+        <button type="submit" class="btn btn-primary" :disabled="processSaving" @click="saveBookmarkEdit">
+          {{tr("save")}}
         </button>
       </template>
     </Modal>
@@ -66,7 +77,14 @@ class BookmarksBlock extends Vue {
 
   bookmarkToEdit = {}
 
+  confirmDelete = false
+
   processSaving = false
+
+  @Watch('bookmarkEditVisible')
+  bookmarkEditVisibleChange(value) {
+    if (value) this.confirmDelete = false
+  }
 
   @Watch('rootNode')
   rootNodeChange(newRootNode) {
@@ -78,6 +96,10 @@ class BookmarksBlock extends Vue {
   }
 
   bookmarks = [];
+
+  get isEditFolder() {
+    return this.bookmarkToEdit.url === undefined;
+  }
 
   editBookmark(bookmark) {
     this.bookmarkToEdit = bookmark
@@ -109,6 +131,29 @@ class BookmarksBlock extends Vue {
     this.bookmarks.splice(bookmarkIndex, 1, currentBookmark)
     // this.$set(this.bookmarks, bookmarkIndex, currentBookmark)
     this.loadBookmarks(currentBookmark.id, bookmarkIndex + 1, currentBookmark)
+  }
+
+  deleteBookmark() {
+    if (!this.confirmDelete) {
+      this.confirmDelete = true
+      return
+    }
+    const callback = () => {
+      this.bookmarks.splice(
+          this.bookmarks.findIndex((bookmark) => bookmark.id === this.bookmarkToEdit.id),
+          1
+      )
+      this.processSaving = false
+      this.confirmDelete = false
+      this.bookmarkEditVisible = false
+    }
+    this.processSaving = true
+    if (this.bookmarkToEdit.url === undefined) {
+      // directory
+      this.$chrome.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
+    } else {
+      this.$chrome.bookmarks.remove(this.bookmarkToEdit.id, callback)
+    }
   }
 
   saveBookmarkEdit() {
