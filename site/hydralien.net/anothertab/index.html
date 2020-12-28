@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Google Chrome extension to display and manage important bookmarks and shortcuts on new tab page. Inspires productivity and convenience of bookmarks usage.">
+    <meta name="author" content="Boris Turchik">
+
+    <title>AnotherTab - New Tab page extension for Google Chrome</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/freelancer.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/jcarousel.basic.css">
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.jcarousel.min.js"></script>
+		<script type="text/javascript" src="js/jcarousel.basic.js"></script>
+
+    <style>
+        body {
+            color: darkslategrey !important;
+            font-family: 'Lato', sans-serif !important;
+        }
+        .navbar, footer .footer-below {
+            background-color: darkslategrey;
+        }
+        .navbar .navbar-nav>.active>a {
+            background-color: lightslategray;
+        }
+        section.success {
+            background-color: lightslategray;
+        }
+    </style>
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top">AnotherTab - New Tab for Google Chrome&trade;</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">About</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#download">Download</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img class="img-responsive" src="img/logo.png" alt="">
+                    <div class="intro-text">
+                        <span class="name">AnotherTab</span>
+                        <span class="skills">
+                            A Google Chrome&trade; extension to simplify bookmarks and extensions access via New Tab page
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="success" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>About</h2>
+                </div>
+            </div>
+            <div class="row">
+              <p>This extension replaces Chrome's standard New Tab page with a very simple thing - a list of a content of a selected bookmarks folder (Bookmarks Bar by default), installed Chrome Extensions list and some useful Chrome shortcuts like settings, passwords, cookies, extensions and data cleanup.</p>
+							<p>It also has an option to highlight, delete or rearrange bookmarks within selected folder to make its location easy to remember.</p>
+                <p>Additionally, several customization options are available, such as background color/image selection, tile size choice, tile-specific highlighting and selection of which directory to use as bookmarks root.</p>
+							<p>Extension also syncs with Google (if you have Chrome logged into your Google account) so you have settings synchronized across all computers you use Chrome at.</p>
+							<p>Have a look:</p>
+            </div>
+						<div class="row">
+							<div class="col-lg-12 text-center">
+								<div class="jcarousel-wrapper">
+									<div class="jcarousel">
+                    <ul>
+                      <li><img src="img/screenshot1.png" alt=""></li>
+                      <li><img src="img/screenshot2.png"  alt=""></li>
+                      <li><img src="img/screenshot3.png"  alt=""></li>
+                      <li><img src="img/screenshot4.png"  alt=""></li>
+                      <li><img src="img/screenshot5.png"  alt=""></li>
+                    </ul>
+									</div>
+
+									<a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+									<a href="#" class="jcarousel-control-next">&rsaquo;</a>
+                
+									<p class="jcarousel-pagination">
+                    
+									</p>
+								</div>
+							</div>
+						</div>
+        </div>
+    </section>
+
+		<!-- Download Section -->
+    <section id="download">
+      <div class="container">
+				<div class="row">
+          <div class="col-lg-12 text-center">
+            <h2>Download</h2>
+          </div>
+        </div>
+        <div class="row text-center">
+          <a href="https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl" class="btn btn-lg btn-outline">
+            <img class="img-responsive" src="img/chromewebstore.png" alt="Install it from Chrome Web Store">
+          </a>
+        </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="success" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Contact Me</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+							<p>With questions and suggestions, please reach me at <a href="mailto:hydra.public@gmail.com">hydra.public@gmail.com</a></p>
+							<p>For the source code, check out <a href="https://github.com/hydralien/Another2Tab">https://github.com/hydralien/Another2Tab</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        Yours, <a href="https://hydralien.net">Boris Turchik</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visible-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/freelancer.js"></script>
+
+</body>
+
+</html>

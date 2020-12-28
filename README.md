@@ -11,3 +11,7 @@ Some limited bookmark and extension management functions are also available/
 ### How do I get set up? ###
 
 Follow the official Chrome Developer guide to install an unpacked extension: https://developer.chrome.com/extensions/getstarted#unpacked
+
+### More info
+* Extension "website" is at http://hydralien.net/anothertab/
+* Extension page on Chrome Webstore: https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl
