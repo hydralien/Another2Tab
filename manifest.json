@@ -12,18 +12,14 @@
     "128": "icons/128.png"
   },
   "default_locale": "en",
-  "offline_enabled": true,
   "storage": {
     "managed_schema": "init.json"
   },
-  "incognito": "split",
   "permissions": [
     "tabs",
     "storage",
-    "unlimitedStorage",
     "bookmarks",
     "management",
-    "chrome://favicon/",
     "https://www.google.com/s2/favicons"
   ],
   "chrome_url_overrides": {

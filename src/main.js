@@ -47,7 +47,11 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
-Vue.prototype.$chrome = chrome || {};
+// eslint-disable-next-line no-undef
+console.log("COBI", chrome, browser)
+// eslint-disable-next-line no-undef
+Vue.prototype.$chrome = chrome || browser || {};
+
 
 new Vue({
 	render: h => h(App)
