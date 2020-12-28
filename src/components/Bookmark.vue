@@ -50,12 +50,38 @@ class Bookmark extends Vue {
     return  this.settings.getCachedLocalIcon(this.bookmark.url);
   }
 
+  hexToRGB(hex, alpha) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    } else {
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+  }
+
+  rgbSum(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return r + g + b
+  }
+
   get bookmarkStyle() {
     const styles = {
       'cursor': this.editMode ? 'grab' : 'pointer'
     }
+    let alpha = 1
     if (this.settings.sync.backgroundColor !== '#ffffff' || this.settings.sync.backgroundImageUrl) {
-      styles['background-color'] = 'rgba(255,255,255,0.7)'
+      alpha = 0.7
+    }
+    styles['background-color'] = `rgba(255,255,255,${alpha})`
+    if (this.bookmark && this.settings.sync.highlightedIcons[this.bookmark.id]) {
+      const bgColor = this.settings.sync.highlightedIcons[this.bookmark.id]
+      styles['background-color'] = this.hexToRGB(bgColor, alpha)
+      if (this.rgbSum(bgColor) < (255*3)/2) styles['color'] = '#ffffff'
     }
 
     return styles

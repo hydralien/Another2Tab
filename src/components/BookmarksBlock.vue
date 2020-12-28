@@ -10,6 +10,8 @@
             <font-awesome-icon v-if="isEditFolder" :icon="['far', 'folder']" class="directory"></font-awesome-icon>
             <img v-else :src="settings.getCachedLocalIcon(bookmarkToEdit.url)" alt="Icon image"/>
           </label>
+          <h6><label for="bookmark-color-edit">{{ tr("tile_color") }}</label></h6>
+          <input id="bookmark-color-edit" type="color" class="form-control" v-model="bookmarkToEdit.bgColor">
           <h6><label for="bookmark-name-edit">{{ tr("title") }}</label></h6>
           <input id="bookmark-name-edit" type="text" class="form-control" v-model="bookmarkToEdit.title">
           <h6><label for="bookmark-url-edit">{{ tr("link") }}</label></h6>
@@ -33,20 +35,25 @@
         </button>
       </template>
     </Modal>
+
+    <!-- ROOT SELECTION   -->
     <section id="bookmarks-root-selection" v-if="this.editMode">
       <h2>
         {{ tr("bookmarks_root_header") }}
       </h2>
       <p>
-        {{tr("root_select_message")}}
+        {{ tr("root_select_message") }}
       </p>
-      <section class="content tiles" id="content-bookmarks-root-selection">
+      <section class="content tiles root-selection" id="content-bookmarks-root-selection">
+        <div class="saving-overlay"><p>{{ tr("root_save_message") }}</p></div>
         <Bookmark v-for="(bookmark,index) in rootMarks" v-bind:key="index" v-bind:bookmark="bookmark"
                   v-bind:settings="settings" :index="index"
-                  @directoryToggle="toggleBookmark" @root="rootSelection"></Bookmark>
+                  @directoryToggle="toggleRootBookmark" @root="rootSelection"></Bookmark>
       </section>
 
     </section>
+
+    <!-- BOOKMARKS   -->
     <h2>
       {{ tr("bookmarks_header") }}
     </h2>
@@ -100,6 +107,7 @@ class BookmarksBlock extends Vue {
 
   @Watch('rootNode')
   rootNodeChange(newRootNode) {
+    this.bookmarks = []
     this.loadBookmarks(newRootNode)
   }
 
@@ -163,7 +171,8 @@ class BookmarksBlock extends Vue {
     this.$chrome.bookmarks.move(
         this.bookmarks[newIndex].id,
         updateParams,
-        () => {}
+        () => {
+        }
     )
   }
 
@@ -173,22 +182,33 @@ class BookmarksBlock extends Vue {
 
   editBookmark(bookmark) {
     this.bookmarkToEdit = bookmark
+    this.bookmarkToEdit.bgColor = this.settings.sync.highlightedIcons[bookmark.id] || '#ffffff'
     this.bookmarkEditVisible = true
   }
 
   toggleBookmark(bookmarkIndex) {
+    return this.toggleAnyBookmark(bookmarkIndex, this.bookmarks)
+  }
+
+  toggleRootBookmark(bookmarkIndex) {
+    const filter = (loadedBookmark) => loadedBookmark.url === undefined
+    this.settings.sync.bookmarksRootNode = this.rootMarks[bookmarkIndex].id
+    this.settings.saveSyncSettings(1)
+    return this.toggleAnyBookmark(bookmarkIndex, this.rootMarks, filter)
+  }
+
+  toggleAnyBookmark(bookmarkIndex, bookmarkSource, bookmarkFilter) {
     const currentBookmark = {}
-    Object.assign(currentBookmark, this.bookmarks[bookmarkIndex])
-    console.log(currentBookmark)
+    Object.assign(currentBookmark, bookmarkSource[bookmarkIndex])
     if (currentBookmark.opened) {
       currentBookmark.opened = false
       currentBookmark.nestedLevel = currentBookmark.nestedLevel - 1
       currentBookmark.listPosition = currentBookmark.prevListPosition || ""
       currentBookmark.prevListPosition = ""
 
-      const childCount = this.bookmarks.filter((bookmark) => bookmark.parentId === currentBookmark.id).length
+      const childCount = bookmarkSource.filter((bookmark) => bookmark.parentId === currentBookmark.id).length
 
-      this.bookmarks.splice(bookmarkIndex, childCount + 1, currentBookmark)
+      bookmarkSource.splice(bookmarkIndex, childCount + 1, currentBookmark)
       return
     }
 
@@ -198,9 +218,9 @@ class BookmarksBlock extends Vue {
     currentBookmark.nestedLevel = (currentBookmark.nestedLevel || 0) + 1
     if (currentBookmark.nestedLevel > 3) currentBookmark.nestedLevel = 3 // no deep nesting for coloring reasons
 
-    this.bookmarks.splice(bookmarkIndex, 1, currentBookmark)
+    bookmarkSource.splice(bookmarkIndex, 1, currentBookmark)
     // this.$set(this.bookmarks, bookmarkIndex, currentBookmark)
-    this.loadBookmarks(currentBookmark.id, bookmarkIndex + 1, currentBookmark)
+    this.loadBookmarks(currentBookmark.id, bookmarkIndex + 1, currentBookmark, bookmarkSource, bookmarkFilter)
   }
 
   deleteBookmark() {
@@ -218,6 +238,10 @@ class BookmarksBlock extends Vue {
       this.bookmarkEditVisible = false
     }
     this.processSaving = true
+    if (this.settings.sync.highlightedIcons[this.bookmarkToEdit.id]) {
+      delete this.settings.sync.highlightedIcons[this.bookmarkToEdit.id]
+      this.settings.saveSyncSettings(100)
+    }
     if (this.bookmarkToEdit.url === undefined) {
       // directory
       this.$chrome.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
@@ -230,6 +254,14 @@ class BookmarksBlock extends Vue {
     const updateObject = {
       url: this.bookmarkToEdit.url,
       title: this.bookmarkToEdit.title
+    }
+    if (this.bookmarkToEdit.bgColor && this.bookmarkToEdit.bgColor !== '#ffffff') {
+      if (!this.settings.sync.highlightedIcons[this.bookmarkToEdit.id]
+          || this.settings.sync.highlightedIcons[this.bookmarkToEdit.id] !== this.bookmarkToEdit.bgColor
+      ) {
+        this.$set(this.settings.sync.highlightedIcons, this.bookmarkToEdit.id, this.bookmarkToEdit.bgColor)
+        this.settings.saveSyncSettings(100)
+      }
     }
     this.$chrome.bookmarks.update(
         this.bookmarkToEdit.id,
@@ -245,15 +277,16 @@ class BookmarksBlock extends Vue {
     )
   }
 
-  loadBookmarks(rootNode, insertAt, parentBookmark) {
+  loadBookmarks(rootNode, insertAt, parentBookmark, bookmarkSource, filter) {
     if (!insertAt) insertAt = 0
-    console.log("Loading ", rootNode, insertAt)
+    if (!bookmarkSource) bookmarkSource = this.bookmarks
     this.$chrome.bookmarks.getChildren(
         rootNode.toString(),
         (loadedBookmarks) => {
           if (!loadedBookmarks || loadedBookmarks.length === 0) {
             return
           }
+          if (filter) loadedBookmarks = loadedBookmarks.filter(filter)
           if (parentBookmark && parentBookmark.opened) {
             loadedBookmarks = loadedBookmarks.map(
                 (bookmark) => {
@@ -264,7 +297,7 @@ class BookmarksBlock extends Vue {
             )
             loadedBookmarks[loadedBookmarks.length - 1].listPosition = "last"
           }
-          this.bookmarks.splice(insertAt, 0, ...loadedBookmarks);
+          bookmarkSource.splice(insertAt, 0, ...loadedBookmarks);
         }
     );
   }
@@ -278,5 +311,26 @@ class BookmarksBlock extends Vue {
   h6 {
     margin: 1em 0 0;
   }
+}
+
+.saving-overlay {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  border-radius: 4px;
+  transition: visibility 0.5s, opacity 0.5s;
+  text-align: center;
+  position: absolute;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+}
+
+.root-selection {
+  position: relative;
 }
 </style>

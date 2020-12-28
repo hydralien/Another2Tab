@@ -45,7 +45,7 @@ export default class Settings {
 		this.chrome.storage.sync.get(
 			//[Object.keys(this.sync)],
 			this.sync,
-			storedSyncSettings => {
+			(storedSyncSettings) => {
 				Object.assign(this.sync, storedSyncSettings);
 				initCallback();
 
@@ -60,8 +60,9 @@ export default class Settings {
 		)
 	}
 
-	saveSyncSettings() {
-		this.saveSettings(this.chrome.storage.sync, this.sync);
+	saveSyncSettings(timeout) {
+		if (!timeout) timeout = SAVINGS_TIMEOUT
+		this.saveSettings(this.chrome.storage.sync, this.sync, timeout);
 	}
 
 	saveLocalSettings() {
