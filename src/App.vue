@@ -111,7 +111,7 @@
         </li>
         <li>
           <a v-on:click="navigate('chrome://settings')">
-            <font-awesome-icon icon="cogs"></font-awesome-icon>
+            <font-awesome-icon icon="sliders-h"></font-awesome-icon>
             {{ tr("params") }}
           </a>
         </li>
@@ -177,7 +177,7 @@
          :class="secondaryIconsClass"
          :title="tr('params')"
       >
-          <font-awesome-icon icon="cogs"></font-awesome-icon>
+          <font-awesome-icon icon="sliders-h"></font-awesome-icon>
       </a>
       <a href="chrome://settings/passwords" v-on:click="navigate('chrome://settings/passwords')"
          :class="secondaryIconsClass"
