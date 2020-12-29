@@ -8,14 +8,14 @@
   >
     <a v-bind:href="bookmark.url" v-bind:title="bookmark.title" v-on:click="navigate">
       <div class="row m-0 icon bookmark-item" :style="bookmarkStyle">
-        <div class="py-0 pl-0 pr-1 col-2 icon-image-side">
+        <div class="py-0 pl-0 pr-1 icon-image-side">
           <font-awesome-icon :icon="['far', 'folder-open']" v-if="isFolder && bookmark.opened"
                              class="directory"></font-awesome-icon>
           <font-awesome-icon :icon="['far', 'folder']" v-else-if="isFolder && !bookmark.opened"
                              class="directory"></font-awesome-icon>
           <img v-else :src="iconUrl" :origin="bookmark.url" :alt="bookmark.url" @load="iconLoad">
         </div>
-        <div class="py-0 pl-1 pr-0 col-10 icon-name-side">
+        <div class="py-0 pl-1 pr-0 icon-name-side">
           {{ bookmark.title }}
           <input type="hidden" v-bind:value="bookmark.id">
         </div>

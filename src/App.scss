@@ -126,11 +126,15 @@
   }
 
   .icon-name-side {
+    flex: 0 0 80%;
+    max-width: 80%;
     overflow: hidden;
     font-family: sans-serif;
   }
 
   .icon-image-side {
+    flex: 0 0 20%;
+    max-width: 20%;
     color: rgb(114, 121, 130);
     font-size: 1.3rem; // this is for fontawesome
   }
@@ -307,4 +311,8 @@ header {
 .image-url-hint {
   font-style: italic;
   font-size: 0.8em;
+}
+
+.form-check-label {
+  display: inline;
 }

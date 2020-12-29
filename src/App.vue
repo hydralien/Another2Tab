@@ -77,6 +77,10 @@
               <input class="form-control" id="background-image-selector" type="text"
                      v-model="settings.sync.backgroundImageUrl">
             </div>
+            <div class="form-group">
+              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.useGoogleIconService"/>
+              <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>
+            </div>
             <button class="btn btn-primary" @click="saveSettings">{{tr("save_settings")}}</button>
           </div>
         </li>
@@ -148,9 +152,9 @@
     </section>
 
     <section id="bookmarks-and-extensions" :class="['size-medium', settings.sync.tileSize]">
-      <BookmarksBlock v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode" :edit-mode="editMode"></BookmarksBlock>
+      <BookmarksBlock ref="bookmarksBlock" v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode" :edit-mode="editMode"></BookmarksBlock>
 
-      <ExtensionsBlock v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
+      <ExtensionsBlock ref="extensionsBlock" v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
     </section>
   </main>
 </template>
@@ -160,7 +164,7 @@ import BookmarksBlock from "@/components/BookmarksBlock";
 import ExtensionsBlock from "@/components/ExtensionsBlock";
 import Modal from "@/components/Modal";
 import Settings from "@/components/settings"
-import {Vue, Watch, Component} from 'vue-property-decorator'
+import {Vue, Watch, Ref, Component} from 'vue-property-decorator'
 
 export default @Component({
   components: {
@@ -181,6 +185,12 @@ class App extends Vue {
   chromeRestartUrl = "chrome://restart/"
   copyText = this.tr("copy_action")
 
+  @Ref('bookmarksBlock')
+  bookmarksBlock
+
+  @Ref('extensionsBlock')
+  extensionsBlock
+
   get menuStyle() {
     return {
       'opacity': (this.settingsVisible ? 1 : (this.settings.sync.backgroundImageUrl ? 0.8 : 1))
@@ -200,9 +210,12 @@ class App extends Vue {
     return styles
   }
 
-  @Watch('settings.sync.tileSize')
-  settingsChange() {
-    // this.settings.saveSyncSettings();
+  @Watch('settings.sync.useGoogleIconService')
+  useGoogleIconServiceChange() {
+    this.settings.current.iconReload = true
+
+    this.bookmarksBlock.bookmarks = []
+    this.bookmarksBlock.loadBookmarks()
   }
 
   toggleSettings() {
@@ -214,6 +227,7 @@ class App extends Vue {
   }
 
   saveSettings() {
+    this.settings.current.iconReload = false
     this.settings.saveSyncSettings();
   }
 

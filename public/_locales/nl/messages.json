@@ -1,62 +1,62 @@
 {
   "short_name": {
-    "message": "Замена для стандартной новой вкладки",
-    "description": "Основное описание плагина"
+    "message": "Vervanging voor de Nieuwe Tabbladpagina",
+    "description": "app's short name"
   },
   "main_description": {
-    "message": "Использует новую вкладку для показа закладок, предоставляя удобный доступ к часто используемым закладкам",
+    "message": "De app gebruikt een nieuwe tabbladpagina om de bladwijzermap te tonen. Het biedt erg snel toegang en makkelijke bladwijzers beheren.",
     "description": "main app description"
   },
-  "settings": {
-    "message": "Установки",
-    "description": "Заголовок секции Установки"
-  },
   "toggle_settings": {
-    "message": "Переключатель установок",
+    "message": "Instellingen schakelen",
     "description": "Settings toggler title"
   },
+  "settings": {
+    "message": "App instellingen",
+    "description": "Settings title"
+  },
   "extensions": {
-    "message": "Управление дополнениями",
+    "message": "Extensies beheren",
     "description": "Extensions button title"
   },
   "tasks": {
-    "message": "",
+    "message": "Taken lijst",
     "description": "Task list button title"
   },
   "cleanup": {
-    "message": "Временные данные",
+    "message": "Tijdelijke gegevens",
     "description": "Cleanup button title"
   },
   "params": {
-    "message": "Установки браузера",
+    "message": "Browser instellingen",
     "description": "Title of Browser Settings shortcut"
   },
   "cookies": {
-    "message": "Куки и данные сайтов",
+    "message": "Cookies en webpagina's gegevens",
     "description": "Title of Cookie Management shortcut"
   },
   "passwords": {
-    "message": "Сохранённые пароли",
+    "message": "Opgeslagen wachtwoorden",
     "description": "Title of Passwords Management shortcut"
   },
   "chrome_reload": {
-    "message": "Перезапуск Chrome",
+    "message": "Chrome herstarten",
     "description": "Title of Chrome restart shortcut"
   },
   "edit": {
-    "message": "Управление закладками",
+    "message": "Bladwijzers bewerken",
     "description": "Title of Bookmarks List Edit shortcut"
   },
   "all_bookmarks": {
-    "message": "Закладки браузера",
+    "message": "Browser bladwijzers",
     "description": "Title of Bookmarks shortcut"
   },
   "settings_trigger": {
-    "message": "AnotherTab установки",
+    "message": "AnotherTab instellingen",
     "description": "Title of AnotherTab Settings shortcut"
   },
   "icon_size": {
-    "message": "Размер иконок:",
+    "message": "Pictogram grootte:",
     "description": "Icon size settings text"
   },
   "icon_size_hint": {
@@ -96,19 +96,19 @@
     "description": "Toolbox position parameter hint"
   },
   "bookmarks_header": {
-    "message": "Закладки",
+    "message": "Bladwijzers",
     "description": "Title of a bookmarks block"
   },
   "bookmarks_root_header": {
-    "message": "Корневая папка закладок",
+    "message": "Bladwijzers oorsprong",
     "description": "Title of a bookmarks root block"
   },
   "extensions_header": {
-    "message": "Дополнения",
+    "message": "Extensies",
     "description": "Title of a extensions block"
   },
   "root_bookmark_change_link": {
-    "message": "изменить",
+    "message": "veranderen",
     "description": "Text for changing root bookmarks folder"
   },
   "remove_bookmark": {
@@ -132,115 +132,116 @@
     "description": "Hint for icon cache switch"
   },
   "edit_bookmark": {
-    "message": "Редактирование закладки",
+    "message": "Bladwijzer bewerken",
     "description": "Header for the edit bookmark modal window"
   },
   "edit_extension": {
-    "message": "Редактирование дополнения",
+    "message": "Extentie bewerken",
     "description": "Header for the edit bookmark modal window"
   },
   "copy_action": {
-    "message": "Скопировать",
+    "message": "Copieren",
     "description": "Copy action"
   },
   "copied_action": {
-    "message": "Скопировано!",
+    "message": "Gekopieerd!",
     "description": "Copied action"
   },
   "chrome_reload_explanation": {
-    "message": "К сожалению, Chrome невозможно перазагрузить напрямую с данной страницы - чтобы сделать это, скопируйте приведённую ниже ссылку, вставьте её в адресную строку браузера и нажмите Enter",
+    "message": "Helaas kan Chrome niet programmatisch opnieuw worden gestart. Om het opnieuw te laden, kopieert u de onderstaande link, plakt u deze in de doorbladerde adresbalk en drukt u op Enter",
     "description": "Why browser cannot be restarted automatically"
   },
   "save_settings": {
-    "message": "Сохранить настройки",
+    "message": "Instellingen opslaan",
     "description": "Saving settings"
   },
   "tile_size": {
-    "message": "Размер карточек",
+    "message": "Tegel grotte",
     "description": ""
   },
   "size_small": {
-    "message": "мелкий",
+    "message": "kleine",
     "description": ""
   },
   "size_medium": {
-    "message": "средний",
+    "message": "medie",
     "description": ""
   },
   "size_large": {
-    "message": "крупный",
+    "message": "groote",
     "description": ""
   },
   "bgcolor": {
-    "message": "Цвет фона",
+    "message": "Achtergrond dkleur",
     "description": ""
   },
   "bgimage": {
-    "message": "Адрес фоновой картинки",
+    "message": "Achtergrond afbeelding link",
     "description": ""
   },
   "edit_mode_message": {
-    "message": "Включен режим редактирования - в нём можно перемещать карточки и редактировать их при нажатии.",
+    "message": "Bewerkingsmodus is ingeschakeld - u kunt nu tegels slepen om ze opnieuw te rangschikken en erop klikken om ze te bewerken.",
     "description": ""
   },
   "title": {
-    "message": "Название",
+    "message": "Titel",
     "description": ""
   },
   "icon": {
-    "message": "Иконка",
+    "message": "Pictogram",
     "description": ""
   },
   "link": {
-    "message": "Ссылка",
+    "message": "Link",
     "description": ""
   },
   "save": {
-    "message": "Сохранить",
+    "message": "Opslaan",
     "description": ""
   },
   "close": {
-    "message": "Отмена",
+    "message": "Annuleren",
     "description": ""
   },
   "delete": {
-    "message": "Удалить",
+    "message": "Verwijderen",
     "description": ""
   },
   "delete_message": {
-    "message": "Точно удалить? (при удалении папки всё её содержимое также будет удалено)",
+    "message": "Weet u zeker dat u het wilt verwijderen? (als het een map is, wordt alle inhoud ook verwijderd)",
     "description": ""
   },
   "confirm_delete": {
-    "message": "Да, удалить",
+    "message": "Ja verwijder het graag",
     "description": ""
   },
   "type": {
-    "message": "Тип",
+    "message": "Type",
     "description": ""
   },
   "directory": {
-    "message": "Папка",
+    "message": "Map",
     "description": ""
   },
   "image_url_hint": {
-    "message": "Пример поиска картинок: зайдите на images.google.com, введите запрос ао интересующей теме (например, \"снежные горы\"), выберите \"Инструменты > Размер > Большой\" чтобы получить наиболее качественные картинки, выберите (нажатием) интересную картику и в меню по левому нажатием на её круаной версии выберите \"Скопировать адрес Картинки\", после чего вставьте ссылку в поле ввода внизу",
+    "message": "Een hint voor het vinden van afbeeldingen: ga naar images.google.com, zoek naar het interessante onderwerp (bijv. \"Bergen\"), selecteer \"Extra> Formaat> Groot\" om afbeeldingen van hoge kwaliteit te krijgen, selecteer een interessante (klik erop), links -klik op het grote voorbeeld om het menu te openen, selecteer \"Afbeeldingsadres kopiëren\" en plak hier het gekopieerde adres",
     "description": ""
   },
   "root_select_message": {
-    "message": "Выберите каталог из которого будут показываться закладки",
+    "message": "Selecteren de oorsprong bladwijzers directory te tonen",
     "description": ""
   },
   "root_save_message": {
-    "message": "Созраняется корневой каталог...",
+    "message": "Oorsprong map opslaan...",
     "description": ""
   },
   "tile_color": {
-    "message": "Цвет карточки",
+    "message": "Tegel kleur",
     "description": ""
   },
   "use_google_icons" : {
-    "message": "использовать сервис иконок Google",
+    "message": "gebruik Google favicon dienst voor betere pictogrammen",
     "description": ""
   }
 }
+    

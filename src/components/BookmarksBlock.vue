@@ -108,7 +108,7 @@ class BookmarksBlock extends Vue {
   @Watch('rootNode')
   rootNodeChange(newRootNode) {
     this.bookmarks = []
-    this.loadBookmarks(newRootNode)
+    this.loadBookmarks({'rootNode': newRootNode})
   }
 
   @Watch('editMode')
@@ -123,7 +123,7 @@ class BookmarksBlock extends Vue {
   }
 
   mounted() {
-    this.loadBookmarks(this.rootNode)
+    this.loadBookmarks({'rootNode': this.rootNode})
   }
 
   get isEditFolder() {
@@ -220,7 +220,13 @@ class BookmarksBlock extends Vue {
 
     bookmarkSource.splice(bookmarkIndex, 1, currentBookmark)
     // this.$set(this.bookmarks, bookmarkIndex, currentBookmark)
-    this.loadBookmarks(currentBookmark.id, bookmarkIndex + 1, currentBookmark, bookmarkSource, bookmarkFilter)
+    this.loadBookmarks({
+      rootNode: currentBookmark.id,
+      insertAt: bookmarkIndex + 1,
+      parentBookmark: currentBookmark,
+      bookmarkSource,
+      filter: bookmarkFilter
+    })
   }
 
   deleteBookmark() {
@@ -277,27 +283,31 @@ class BookmarksBlock extends Vue {
     )
   }
 
-  loadBookmarks(rootNode, insertAt, parentBookmark, bookmarkSource, filter) {
-    if (!insertAt) insertAt = 0
-    if (!bookmarkSource) bookmarkSource = this.bookmarks
-    this.$chrome.bookmarks.getChildren(
+  loadBookmarks(params = {}) {
+    const rootNode = params.rootNode || this.rootNode
+    const insertAt = params.insertAt || 0
+    const bookmarkSource = params.bookmarkSource || this.bookmarks
+    const parentBookmark = params.parentBookmark
+    const filter = params.filter
+
+    return this.$chrome.bookmarks.getChildren(
         rootNode.toString(),
         (loadedBookmarks) => {
-          if (!loadedBookmarks || loadedBookmarks.length === 0) {
-            return
+          if (loadedBookmarks && loadedBookmarks.length > 0) {
+            if (filter) loadedBookmarks = loadedBookmarks.filter(filter)
+            if (parentBookmark && parentBookmark.opened) {
+              loadedBookmarks = loadedBookmarks.map(
+                  (bookmark) => {
+                    bookmark.nestedLevel = parentBookmark.nestedLevel
+                    bookmark.listPosition = "middle"
+                    return bookmark
+                  }
+              )
+              loadedBookmarks[loadedBookmarks.length - 1].listPosition = "last"
+            }
+            bookmarkSource.splice(insertAt, 0, ...loadedBookmarks);
           }
-          if (filter) loadedBookmarks = loadedBookmarks.filter(filter)
-          if (parentBookmark && parentBookmark.opened) {
-            loadedBookmarks = loadedBookmarks.map(
-                (bookmark) => {
-                  bookmark.nestedLevel = parentBookmark.nestedLevel
-                  bookmark.listPosition = "middle"
-                  return bookmark
-                }
-            )
-            loadedBookmarks[loadedBookmarks.length - 1].listPosition = "last"
-          }
-          bookmarkSource.splice(insertAt, 0, ...loadedBookmarks);
+          if (params.finally) params.finally()
         }
     );
   }

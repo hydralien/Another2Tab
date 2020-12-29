@@ -10,7 +10,7 @@ export default class Settings {
 			settingsBlock: {
 				marginLeft: 0
 			},
-			editMode: false
+			iconReload: false
 		};
 
 		this.sync = {
@@ -19,7 +19,8 @@ export default class Settings {
 			backgroundImageUrl: '',
 			highlightedIcons: {},
 			// bookmarksRootNode: 0,
-			bookmarksRootNode: 1, // this has to be configurable
+			bookmarksRootNode: 1,
+			useGoogleIconService: true
 		};
 
 		this.local = {
@@ -88,7 +89,12 @@ export default class Settings {
 		let cachedIcon = this.local.iconCache[iconUrl];
 
 		let now = new Date();
-		if (!cachedIcon || parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+		if (!cachedIcon
+			|| this.current.iconReload
+			|| parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+			if (this.sync.useGoogleIconService) {
+				return `https://www.google.com/s2/favicons?sz=32&domain_url=${iconUrl}`
+			}
 			return "chrome://favicon/" + iconUrl;
 		}
 

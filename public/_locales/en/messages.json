@@ -238,6 +238,10 @@
   "tile_color": {
     "message": "Tile color",
     "description": ""
+  },
+  "use_google_icons" : {
+    "message": "use Google favicon service for better icons",
+    "description": ""
   }
 }
     
