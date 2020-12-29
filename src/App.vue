@@ -77,13 +77,13 @@
               <input class="form-control" id="background-image-selector" type="text"
                      v-model="settings.sync.backgroundImageUrl">
             </div>
-<!--            <div class="form-group">-->
-<!--              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.useGoogleIconService"/>-->
-<!--              <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>-->
-<!--            </div>-->
             <div class="form-group">
-              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.displaySidebarShortcuts"/>
-              <label for="check-use-google-icons" class="form-check-label">{{ tr("display_sidebar_shortcuts") }}</label>
+              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.useGoogleIconService"/>
+              <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>
+            </div>
+            <div class="form-group">
+              <input id="display-sidebar-shortcuts" type="checkbox" class="form-check-inline" v-model="settings.sync.displaySidebarShortcuts"/>
+              <label for="display-sidebar-shortcuts" class="form-check-label">{{ tr("display_sidebar_shortcuts") }}</label>
             </div>
             <button class="btn btn-primary" @click="saveSettings">{{tr("save_settings")}}</button>
           </div>

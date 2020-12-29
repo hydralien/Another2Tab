@@ -20,7 +20,7 @@ export default class Settings {
 			highlightedIcons: {},
 			// bookmarksRootNode: 0,
 			bookmarksRootNode: 1,
-			useGoogleIconService: false,
+			useGoogleIconService: true,
 			displaySidebarShortcuts: true
 		};
 
