@@ -242,6 +242,10 @@
   "use_google_icons" : {
     "message": "use Google favicon service for better icons",
     "description": ""
+  },
+  "display_sidebar_shortcuts" : {
+    "message": "show Chrome shortcuts at the sidebar",
+    "description": ""
   }
 }
     

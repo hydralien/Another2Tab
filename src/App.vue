@@ -77,9 +77,13 @@
               <input class="form-control" id="background-image-selector" type="text"
                      v-model="settings.sync.backgroundImageUrl">
             </div>
+<!--            <div class="form-group">-->
+<!--              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.useGoogleIconService"/>-->
+<!--              <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>-->
+<!--            </div>-->
             <div class="form-group">
-              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.useGoogleIconService"/>
-              <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>
+              <input id="check-use-google-icons" type="checkbox" class="form-check-inline" v-model="settings.sync.displaySidebarShortcuts"/>
+              <label for="check-use-google-icons" class="form-check-label">{{ tr("display_sidebar_shortcuts") }}</label>
             </div>
             <button class="btn btn-primary" @click="saveSettings">{{tr("save_settings")}}</button>
           </div>
@@ -149,6 +153,50 @@
       >
         <font-awesome-icon icon="pen"></font-awesome-icon>
       </a>
+      <a href="chrome://extensions/"
+         v-on:click.prevent="navigate('chrome://extensions/')"
+         :title="tr('extensions')"
+         :class="secondaryIconsClass"
+      >
+        <font-awesome-icon :icon="['fab', 'chrome']"></font-awesome-icon>
+      </a>
+
+      <a href="chrome://settings/clearBrowserData" @click="navigate('chrome://settings/clearBrowserData')"
+         :class="secondaryIconsClass"
+         :title="tr('cleanup')"
+      >
+        <font-awesome-icon icon="trash"></font-awesome-icon>
+      </a>
+      <a href="chrome://settings/cookies" v-on:click="navigate('chrome://settings/cookies')"
+         :class="secondaryIconsClass"
+         :title="tr('cookies')"
+      >
+          <font-awesome-icon icon="cookie-bite"></font-awesome-icon>
+      </a>
+      <a href="chrome://settings" v-on:click="navigate('chrome://settings')"
+         :class="secondaryIconsClass"
+         :title="tr('params')"
+      >
+          <font-awesome-icon icon="cogs"></font-awesome-icon>
+      </a>
+      <a href="chrome://settings/passwords" v-on:click="navigate('chrome://settings/passwords')"
+         :class="secondaryIconsClass"
+         :title="tr('passwords')"
+      >
+          <font-awesome-icon icon="key"></font-awesome-icon>
+      </a>
+      <a href="chrome://bookmarks" v-on:click="navigate('chrome://bookmarks')"
+         :class="secondaryIconsClass"
+         :title="tr('all_bookmarks')"
+      >
+          <font-awesome-icon icon="bookmark"></font-awesome-icon>
+      </a>
+      <a href="chrome://restart" @click="restart"
+         :class="secondaryIconsClass"
+         :title="tr('chrome_reload')"
+      >
+          <font-awesome-icon icon="sync-alt"></font-awesome-icon>
+      </a>
     </section>
 
     <section id="bookmarks-and-extensions" :class="['size-medium', settings.sync.tileSize]">
@@ -208,6 +256,13 @@ class App extends Vue {
     }
 
     return styles
+  }
+
+  get secondaryIconsClass() {
+    return [
+      'shortcut-secondary',
+      !this.settingsVisible && this.settings.sync.displaySidebarShortcuts ? 'shortcut-secondary-visible' : ''
+    ]
   }
 
   @Watch('settings.sync.useGoogleIconService')

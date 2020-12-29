@@ -242,6 +242,10 @@
   "use_google_icons" : {
     "message": "gebruik Google favicon dienst voor betere pictogrammen",
     "description": ""
+  },
+  "display_sidebar_shortcuts" : {
+    "message": "Chrome-snelkoppelingen in de zijbalk tonen",
+    "description": ""
   }
 }
     

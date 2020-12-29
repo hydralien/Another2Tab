@@ -166,13 +166,6 @@ header {
   }
 }
 
-.settings-trigger {
-  cursor: pointer;
-  display: block;
-  font-size: 1.5rem;
-  color: darkslategrey;
-}
-
 .trigger, .trigger img {
   width: 32px;
   height: 32px;
@@ -273,13 +266,19 @@ header {
   max-height: 100rem;
 }
 
-.shortcut-secondary {
-  border-radius: 2px;
-  visibility: hidden;
+.settings-trigger, .shortcut-secondary {
   cursor: pointer;
   display: block;
   font-size: 1.5rem;
   color: darkslategrey;
+  width: 48px;
+  height: 40px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.shortcut-secondary {
+  visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s;
 }

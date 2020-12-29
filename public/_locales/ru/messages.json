@@ -242,5 +242,9 @@
   "use_google_icons" : {
     "message": "использовать сервис иконок Google",
     "description": ""
+  },
+  "display_sidebar_shortcuts" : {
+    "message": "показывать настройки бразура в боковой панели",
+    "description": ""
   }
 }
