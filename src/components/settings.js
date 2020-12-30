@@ -1,7 +1,8 @@
 const SAVINGS_TIMEOUT = 1000;
-const ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 7; // one week
 
 export default class Settings {
+	ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 7;
+
 	constructor(chromeInstance, initCallback) {
 		this.chrome = chromeInstance;
 		this.savingsTimer = null;
@@ -50,6 +51,7 @@ export default class Settings {
 			(storedSyncSettings) => {
 				Object.assign(this.sync, storedSyncSettings);
 				initCallback();
+				this.syncSettingsLoaded()
 
 				// this needs to be made concurrent with sync load, at some point
 				this.chrome.storage.local.get(
@@ -60,6 +62,13 @@ export default class Settings {
 				);
 			}
 		)
+	}
+
+	syncSettingsLoaded() {
+		if (this.sync.useGoogleIconService) {
+			// longer TTL for Google icons as reloading them might not work (e.g. if no internet connection)
+			this.ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 30;
+		}
 	}
 
 	saveSyncSettings(timeout) {
@@ -86,13 +95,17 @@ export default class Settings {
 		this.savingsTimer = setTimeout(storageMethod, timeout);
 	}
 
+	getFallbackIcon(iconUrl) {
+		return "chrome://favicon/" + iconUrl;
+	}
+
 	getCachedLocalIcon(iconUrl) {
 		let cachedIcon = this.local.iconCache[iconUrl];
 
 		let now = new Date();
 		if (!cachedIcon
 			|| this.current.iconReload
-			|| parseInt(cachedIcon.createdAt) + ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+			|| parseInt(cachedIcon.createdAt) + this.ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
 			if (this.sync.useGoogleIconService) {
 				return `https://www.google.com/s2/favicons?sz=32&domain_url=${iconUrl}`
 			}

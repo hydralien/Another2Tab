@@ -13,7 +13,7 @@
                              class="directory"></font-awesome-icon>
           <font-awesome-icon :icon="['far', 'folder']" v-else-if="isFolder && !bookmark.opened"
                              class="directory"></font-awesome-icon>
-          <img v-else :src="iconUrl" :origin="bookmark.url" :alt="bookmark.url" @load="iconLoad">
+          <img v-else :src="iconUrl" :origin="bookmark.url" :alt="bookmark.url" @error="iconFail" @load="iconLoad">
         </div>
         <div class="py-0 pl-1 pr-0 icon-name-side">
           {{ bookmark.title }}
@@ -42,11 +42,14 @@ class Bookmark extends Vue {
   @Prop({type: Boolean, default: false})
   editMode
 
+  iconFallback = false
+
   get isFolder() {
     return this.bookmark.url === undefined;
   }
 
   get iconUrl() {
+    if (this.iconFallback) return this.settings.getFallbackIcon(this.bookmark.url)
     return  this.settings.getCachedLocalIcon(this.bookmark.url);
   }
 
@@ -97,6 +100,11 @@ class Bookmark extends Vue {
       this.$emit('directoryToggle', this.$props.index)
     }
     // window.location.href = this.bookmark.url;
+  }
+
+  iconFail(iconEvent) {
+    let icon = iconEvent.target
+    if (!icon.src.startsWith('chrome')) this.iconFallback = true // if it's chrome URL already, there's nothing to fall back to
   }
 
   iconLoad(iconEvent) {
