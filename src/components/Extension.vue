@@ -41,10 +41,10 @@ class Extension extends Bookmark {
     if (!this.extension.enabled) return
 
     if (this.extension.isApp) {
-      this.$chrome.management.launchApp(this.extension.id);
+      chrome.management.launchApp(this.extension.id);
     } else {
       const extUrl = this.extension.optionsUrl || this.extension.homepageUrl
-      this.$chrome.tabs.create({url: extUrl});
+      chrome.tabs.create({url: extUrl});
     }
     // window.close();
   }

@@ -17,8 +17,8 @@
   },
   "permissions": [
     "tabs",
-    "storage",
     "bookmarks",
+    "storage",
     "management",
     "https://www.google.com/s2/favicons"
   ],
@@ -27,6 +27,7 @@
   },
   "background": {
     "scripts": [
+
     ]
   }
 }

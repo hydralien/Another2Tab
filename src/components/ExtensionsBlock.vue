@@ -59,7 +59,7 @@ class ExtensionsBlock extends Vue {
   }
 
   loadExtensions() {
-    this.$chrome.management.getAll(
+    chrome.management.getAll(
         (loadedExtensions) => {
           this.extensions = loadedExtensions;
         }
@@ -73,7 +73,7 @@ class ExtensionsBlock extends Vue {
 
   deleteExtension() {
     this.processSaving = true
-    this.$chrome.management.uninstall(
+    chrome.management.uninstall(
         this.extensionToEdit.id,
         {showConfirmDialog: true},
         () => {

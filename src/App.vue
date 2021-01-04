@@ -246,7 +246,7 @@
       <BookmarksBlock ref="bookmarksBlock" v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode"
                       :edit-mode="editMode"></BookmarksBlock>
 
-      <ExtensionsBlock ref="extensionsBlock" v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
+<!--      <ExtensionsBlock ref="extensionsBlock" v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>-->
     </section>
   </main>
 </template>
@@ -266,9 +266,7 @@ export default @Component({
   }
 })
 class App extends Vue {
-  settings = new Settings(
-      this.$chrome
-  )
+  settings = new Settings()
   editMode = false
   settingsVisible = false
   appSettingsVisible = false
@@ -332,7 +330,7 @@ class App extends Vue {
   }
 
   navigate(targetUrl) {
-    this.$chrome.tabs.create({url: targetUrl});
+    chrome.tabs.create({url: targetUrl});
   }
 
   restart() {

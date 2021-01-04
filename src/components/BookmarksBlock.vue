@@ -114,8 +114,8 @@ class BookmarksBlock extends Vue {
   @Watch('editMode')
   editModeChange(value) {
     if (!value) return
-    this.$chrome.bookmarks.getChildren(
-        '0',
+    chrome.bookmarks.getChildren(
+        typeof browser === undefined ? '0' : 'root________',
         (loadedBookmarks) => {
           this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
         }
@@ -168,7 +168,7 @@ class BookmarksBlock extends Vue {
 
     Object.assign(this.bookmarks[newIndex], styleParams)
     Object.assign(this.bookmarks[newIndex], updateParams)
-    this.$chrome.bookmarks.move(
+    chrome.bookmarks.move(
         this.bookmarks[newIndex].id,
         updateParams,
         () => {
@@ -250,9 +250,9 @@ class BookmarksBlock extends Vue {
     }
     if (this.bookmarkToEdit.url === undefined) {
       // directory
-      this.$chrome.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
+      chrome.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
     } else {
-      this.$chrome.bookmarks.remove(this.bookmarkToEdit.id, callback)
+      chrome.bookmarks.remove(this.bookmarkToEdit.id, callback)
     }
   }
 
@@ -269,7 +269,7 @@ class BookmarksBlock extends Vue {
         this.settings.saveSyncSettings(100)
       }
     }
-    this.$chrome.bookmarks.update(
+    chrome.bookmarks.update(
         this.bookmarkToEdit.id,
         updateObject,
         () => {
@@ -290,7 +290,7 @@ class BookmarksBlock extends Vue {
     const parentBookmark = params.parentBookmark
     const filter = params.filter
 
-    return this.$chrome.bookmarks.getChildren(
+    chrome.bookmarks.getChildren(
         rootNode.toString(),
         (loadedBookmarks) => {
           if (loadedBookmarks && loadedBookmarks.length > 0) {

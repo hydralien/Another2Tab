@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
-import chrome from './components/chrome';
+// eslint-disable-next-line no-unused-vars
+import './components/chrome';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {
 	faPencilRuler,
@@ -48,9 +49,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
 // eslint-disable-next-line no-undef
-console.log("COBI", chrome, browser)
-// eslint-disable-next-line no-undef
-Vue.prototype.$chrome = chrome || browser || {};
+// Vue.prototype.$chrome = chrome
 
 
 new Vue({
