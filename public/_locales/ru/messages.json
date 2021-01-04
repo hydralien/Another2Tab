@@ -246,5 +246,21 @@
   "display_sidebar_shortcuts" : {
     "message": "показывать настройки бразура в боковой панели",
     "description": ""
+  },
+  "app_info" : {
+    "message": "Информация",
+    "description": ""
+  },
+  "tech_used" : {
+    "message": "Использованные технологии",
+    "description": ""
+  },
+  "design_guidance" : {
+    "message": "Помощь в дизайне",
+    "description": ""
+  },
+  "app_dev" : {
+    "message": "Разработка",
+    "description": ""
   }
 }

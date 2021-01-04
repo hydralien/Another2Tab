@@ -12,7 +12,8 @@ import {
 	faCogs,
 	faKey,
 	faBookmark,
-	faSyncAlt
+	faSyncAlt,
+	faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 import{
 	faFolder,
@@ -38,7 +39,8 @@ library.add(
 	faBookmark,
 	faSyncAlt,
 	faFolder,
-	faFolderOpen
+	faFolderOpen,
+	faInfoCircle
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -246,6 +246,22 @@
   "display_sidebar_shortcuts" : {
     "message": "show Chrome shortcuts at the sidebar",
     "description": ""
+  },
+  "app_info" : {
+    "message": "App info",
+    "description": ""
+  },
+  "tech_used" : {
+    "message": "Technologies used",
+    "description": ""
+  },
+  "design_guidance" : {
+    "message": "Design guidance",
+    "description": ""
+  },
+  "app_dev" : {
+    "message": "App development",
+    "description": ""
   }
 }
     

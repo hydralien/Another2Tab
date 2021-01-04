@@ -246,6 +246,22 @@
   "display_sidebar_shortcuts" : {
     "message": "Chrome-snelkoppelingen in de zijbalk tonen",
     "description": ""
+  },
+  "app_info" : {
+    "message": "App informatie",
+    "description": ""
+  },
+  "tech_used" : {
+    "message": "Gebruikte technologieën",
+    "description": ""
+  },
+  "design_guidance" : {
+    "message": "Ontwerpbegeleiding",
+    "description": ""
+  },
+  "app_dev" : {
+    "message": "App ontwikkeling",
+    "description": ""
   }
 }
     
