@@ -5,7 +5,7 @@ module.exports = {
 	pages: {
 		index: {
 			entry: 'src/main.js',
-			title: "Another2Tab"
+			title: "AnotherTab"
 		}
 	},
 	configureWebpack: {
