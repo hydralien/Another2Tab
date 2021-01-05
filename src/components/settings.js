@@ -1,3 +1,5 @@
+import Browser from "@/browser";
+
 const SAVINGS_TIMEOUT = 1000;
 
 export default class Settings {
@@ -44,7 +46,7 @@ export default class Settings {
 	}
 
 	loadSettings(initCallback) {
-		chrome.storage.sync.get(
+		Browser.storage.sync.get(
 			//[Object.keys(this.sync)],
 			this.sync,
 			(storedSyncSettings) => {
@@ -53,7 +55,7 @@ export default class Settings {
 				this.syncSettingsLoaded()
 
 				// this needs to be made concurrent with sync load, at some point
-				chrome.storage.local.get(
+				Browser.storage.local.get(
 					this.local,
 					storedLocalSettings => {
 						Object.assign(this.local, storedLocalSettings);
@@ -72,11 +74,11 @@ export default class Settings {
 
 	saveSyncSettings(timeout) {
 		if (!timeout) timeout = SAVINGS_TIMEOUT
-		this.saveSettings(chrome.storage.sync, this.sync, timeout);
+		this.saveSettings(Browser.storage.sync, this.sync, timeout);
 	}
 
 	saveLocalSettings() {
-		this.saveSettings(chrome.storage.local, this.local, 100);
+		this.saveSettings(Browser.storage.local, this.local, 100);
 	}
 
 	saveSettings(chromeStorage, settingsObject, timeout = SAVINGS_TIMEOUT) {

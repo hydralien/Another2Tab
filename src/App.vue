@@ -246,7 +246,7 @@
       <BookmarksBlock ref="bookmarksBlock" v-bind:settings="settings" :rootNode="settings.sync.bookmarksRootNode"
                       :edit-mode="editMode"></BookmarksBlock>
 
-<!--      <ExtensionsBlock ref="extensionsBlock" v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>-->
+      <ExtensionsBlock ref="extensionsBlock" v-bind:settings="settings" :edit-mode="editMode"></ExtensionsBlock>
     </section>
   </main>
 </template>
@@ -257,6 +257,7 @@ import ExtensionsBlock from "@/components/ExtensionsBlock";
 import Modal from "@/components/Modal";
 import Settings from "@/components/settings"
 import {Vue, Watch, Ref, Component} from 'vue-property-decorator'
+import Browser from "@/browser";
 
 export default @Component({
   components: {
@@ -330,7 +331,7 @@ class App extends Vue {
   }
 
   navigate(targetUrl) {
-    chrome.tabs.create({url: targetUrl});
+    Browser.tabs.create({url: targetUrl});
   }
 
   restart() {

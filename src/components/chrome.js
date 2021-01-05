@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Browser from "@/browser";
 
 Vue.mixin( {
 	beforeCreate() {
@@ -24,7 +25,7 @@ Vue.mixin( {
 	},
 	methods: {
 		tr(tagName, params) {
-			return chrome.i18n.getMessage(tagName, params);
+			return Browser.i18n.getMessage(tagName, params);
 		}
 	}
 } );

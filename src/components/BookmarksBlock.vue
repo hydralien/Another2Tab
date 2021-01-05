@@ -70,6 +70,7 @@ import Bookmark from "@/components/Bookmark";
 import Modal from "@/components/Modal";
 import {Vue, Prop, Watch, Component} from 'vue-property-decorator'
 import draggable from 'vuedraggable'
+import Browser from "@/browser";
 
 export default @Component({
   components: {
@@ -114,7 +115,7 @@ class BookmarksBlock extends Vue {
   @Watch('editMode')
   editModeChange(value) {
     if (!value) return
-    chrome.bookmarks.getChildren(
+    Browser.bookmarks.getChildren(
         typeof browser === undefined ? '0' : 'root________',
         (loadedBookmarks) => {
           this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
@@ -168,7 +169,7 @@ class BookmarksBlock extends Vue {
 
     Object.assign(this.bookmarks[newIndex], styleParams)
     Object.assign(this.bookmarks[newIndex], updateParams)
-    chrome.bookmarks.move(
+    Browser.bookmarks.move(
         this.bookmarks[newIndex].id,
         updateParams,
         () => {
@@ -250,9 +251,9 @@ class BookmarksBlock extends Vue {
     }
     if (this.bookmarkToEdit.url === undefined) {
       // directory
-      chrome.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
+      Browser.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
     } else {
-      chrome.bookmarks.remove(this.bookmarkToEdit.id, callback)
+      Browser.bookmarks.remove(this.bookmarkToEdit.id, callback)
     }
   }
 
@@ -269,7 +270,7 @@ class BookmarksBlock extends Vue {
         this.settings.saveSyncSettings(100)
       }
     }
-    chrome.bookmarks.update(
+    Browser.bookmarks.update(
         this.bookmarkToEdit.id,
         updateObject,
         () => {
@@ -288,9 +289,13 @@ class BookmarksBlock extends Vue {
     const insertAt = params.insertAt || 0
     const bookmarkSource = params.bookmarkSource || this.bookmarks
     const parentBookmark = params.parentBookmark
-    const filter = params.filter
+    const filter = (bookmark) => {
+      if (bookmark.url && bookmark.url.startsWith('place')) return false // Firefox 'calculated' bookmarks
+      if (params.filter) return params.filter(bookmark)
+      return true
+    }
 
-    chrome.bookmarks.getChildren(
+    Browser.bookmarks.getChildren(
         rootNode.toString(),
         (loadedBookmarks) => {
           if (loadedBookmarks && loadedBookmarks.length > 0) {

@@ -17,6 +17,7 @@
 <script>
 import {Component, Prop} from 'vue-property-decorator'
 import Bookmark from './Bookmark.vue'
+import Browser, {browserType, FIREFOX} from "@/browser";
 
 export default @Component
 class Extension extends Bookmark {
@@ -24,7 +25,11 @@ class Extension extends Bookmark {
   extension
 
   get iconUrl() {
-    return "chrome://extension-icon/" + this.extension.id + "/128/1";
+    const icons = [...this.extension.icons]
+    if (icons.length === 0) return ""
+    icons.sort((a, b) => b.size - a.size)
+    const maxIcon = icons[0]
+    return maxIcon.url;
   }
 
   get extensionStyle() {
@@ -41,10 +46,18 @@ class Extension extends Bookmark {
     if (!this.extension.enabled) return
 
     if (this.extension.isApp) {
-      chrome.management.launchApp(this.extension.id);
+      return Browser.management.launchApp(this.extension.id);
     } else {
       const extUrl = this.extension.optionsUrl || this.extension.homepageUrl
-      chrome.tabs.create({url: extUrl});
+      if (extUrl) {
+        return Browser.tabs.create({url: extUrl});
+      }
+      if (browserType() === FIREFOX) {
+        Browser.search.search({
+          query: '',
+          engine: this.extension.name
+        })
+      }
     }
     // window.close();
   }
