@@ -136,7 +136,7 @@
       <ul class="action-list">
         <li>
           <a v-on:click="navigate('chrome://extensions/')">
-            <font-awesome-icon :icon="['fab', 'chrome']"></font-awesome-icon>
+            <font-awesome-icon icon="puzzle-piece"></font-awesome-icon>
             {{ tr("extensions") }}
           </a>
         </li>
@@ -201,7 +201,7 @@
          :title="tr('extensions')"
          :class="secondaryIconsClass"
       >
-        <font-awesome-icon :icon="['fab', 'chrome']"></font-awesome-icon>
+        <font-awesome-icon icon="puzzle-piece"></font-awesome-icon>
       </a>
 
       <a href="chrome://settings/clearBrowserData" @click="navigate('chrome://settings/clearBrowserData')"
