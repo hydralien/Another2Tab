@@ -4,10 +4,10 @@
       <template slot="header">{{ tr("chrome_reload") }}</template>
 
       <p class="text-left">
-        {{ tr("chrome_reload_explanation") }}
+        {{ tr(explanationTag) }}
       </p>
       <div class="input-group mb-3 form-group">
-        <label for="chrome-restart-url" class="sr-only">Browser restart link</label>
+        <label for="chrome-restart-url" class="sr-only">Internal page link</label>
         <input id="chrome-restart-url" class="form-control" readonly="readonly" :value="chromeRestartUrl"/>
         <div class="input-group-append">
           <button class="btn btn-primary" v-clipboard="chromeRestartUrl" @success="copyTextChange">{{
@@ -110,7 +110,7 @@
               <input class="form-control" id="background-image-selector" type="text"
                      v-model="settings.sync.backgroundImageUrl">
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="!isFirefox">
               <input id="check-use-google-icons" type="checkbox" class="form-check-inline"
                      v-model="settings.sync.useGoogleIconService"/>
               <label for="check-use-google-icons" class="form-check-label">{{ tr("use_google_icons") }}</label>
@@ -131,52 +131,15 @@
             {{ tr("app_info") }}
           </a>
         </li>
-      </ul>
-      <h3 class="mt-3">Chrome</h3>
-      <ul class="action-list">
         <li>
-          <a v-on:click="navigate('chrome://extensions/')">
-            <font-awesome-icon icon="puzzle-piece"></font-awesome-icon>
-            {{ tr("extensions") }}
-          </a>
-        </li>
-        <li>
-          <a @click="navigate('chrome://settings/clearBrowserData')">
-            <font-awesome-icon icon="trash"></font-awesome-icon>
-            {{ tr("cleanup") }}
-          </a>
-        </li>
-        <li>
-          <a v-on:click="navigate('chrome://settings/cookies')">
-            <font-awesome-icon icon="cookie-bite"></font-awesome-icon>
-            {{ tr("cookies") }}
-          </a>
-        </li>
-        <li>
-          <a v-on:click="navigate('chrome://settings')">
-            <font-awesome-icon icon="sliders-h"></font-awesome-icon>
-            {{ tr("params") }}
-          </a>
-        </li>
-        <li>
-          <a v-on:click="navigate('chrome://settings/passwords')">
-            <font-awesome-icon icon="key"></font-awesome-icon>
-            {{ tr("passwords") }}
-          </a>
-        </li>
-        <li>
-          <a v-on:click="navigate('chrome://bookmarks')">
-            <font-awesome-icon icon="bookmark"></font-awesome-icon>
-            {{ tr("all_bookmarks") }}
-          </a>
-        </li>
-        <li>
-          <a @click="restart">
-            <font-awesome-icon icon="sync-alt"></font-awesome-icon>
-            {{ tr("chrome_reload") }}
+          <a :href="`mailto:hydra.public@gmail.com?subject=Feedback for AnotherTab (${browserType})`">
+            <font-awesome-icon icon="envelope"></font-awesome-icon>
+            {{ tr("app_feedback") }}
           </a>
         </li>
       </ul>
+      <h3 class="mt-3">{{ tr("browser") }}</h3>
+      <ShortcutsBlock :icons-only="false" @reload="restart"/>
 
       <div class="references text-center">
         <!--        by-->
@@ -196,50 +159,7 @@
       >
         <font-awesome-icon icon="pen"></font-awesome-icon>
       </a>
-      <a href="chrome://extensions/"
-         v-on:click.prevent="navigate('chrome://extensions/')"
-         :title="tr('extensions')"
-         :class="secondaryIconsClass"
-      >
-        <font-awesome-icon icon="puzzle-piece"></font-awesome-icon>
-      </a>
-
-      <a href="chrome://settings/clearBrowserData" @click="navigate('chrome://settings/clearBrowserData')"
-         :class="secondaryIconsClass"
-         :title="tr('cleanup')"
-      >
-        <font-awesome-icon icon="trash"></font-awesome-icon>
-      </a>
-      <a href="chrome://settings/cookies" v-on:click="navigate('chrome://settings/cookies')"
-         :class="secondaryIconsClass"
-         :title="tr('cookies')"
-      >
-        <font-awesome-icon icon="cookie-bite"></font-awesome-icon>
-      </a>
-      <a href="chrome://settings" v-on:click="navigate('chrome://settings')"
-         :class="secondaryIconsClass"
-         :title="tr('params')"
-      >
-        <font-awesome-icon icon="sliders-h"></font-awesome-icon>
-      </a>
-      <a href="chrome://settings/passwords" v-on:click="navigate('chrome://settings/passwords')"
-         :class="secondaryIconsClass"
-         :title="tr('passwords')"
-      >
-        <font-awesome-icon icon="key"></font-awesome-icon>
-      </a>
-      <a href="chrome://bookmarks" v-on:click="navigate('chrome://bookmarks')"
-         :class="secondaryIconsClass"
-         :title="tr('all_bookmarks')"
-      >
-        <font-awesome-icon icon="bookmark"></font-awesome-icon>
-      </a>
-      <a href="chrome://restart" @click="restart"
-         :class="secondaryIconsClass"
-         :title="tr('chrome_reload')"
-      >
-        <font-awesome-icon icon="sync-alt"></font-awesome-icon>
-      </a>
+      <ShortcutsBlock :icons-only="true" :secondary-icons-class="secondaryIconsClass" @reload="restart"/>
     </section>
 
     <section id="bookmarks-and-extensions" :class="['size-medium', settings.sync.tileSize]">
@@ -257,18 +177,19 @@ import ExtensionsBlock from "@/components/ExtensionsBlock";
 import Modal from "@/components/Modal";
 import Settings from "@/components/settings"
 import {Vue, Watch, Ref, Component} from 'vue-property-decorator'
+import ShortcutsBlock from "@/components/ShortcutsBlock"
+import { browserType, FIREFOX } from "@/browser";
 
 export default @Component({
   components: {
     BookmarksBlock,
     ExtensionsBlock,
+    ShortcutsBlock,
     Modal
   }
 })
 class App extends Vue {
-  settings = new Settings(
-      this.$chrome
-  )
+  settings = new Settings()
   editMode = false
   settingsVisible = false
   appSettingsVisible = false
@@ -276,7 +197,10 @@ class App extends Vue {
   chromeRestartVisible = false
   imageUrlHint = false
   chromeRestartUrl = "chrome://restart/"
+  explanationTag = "chrome_reload_explanation"
   copyText = this.tr("copy_action")
+  isFirefox = browserType() === FIREFOX
+  browserType = browserType()
 
   @Ref('bookmarksBlock')
   bookmarksBlock
@@ -331,11 +255,9 @@ class App extends Vue {
     this.settings.saveSyncSettings();
   }
 
-  navigate(targetUrl) {
-    this.$chrome.tabs.create({url: targetUrl});
-  }
-
-  restart() {
+  restart(restartUrl, explanationTag) {
+    if (restartUrl) this.chromeRestartUrl = restartUrl
+    if (explanationTag) this.explanationTag = explanationTag
     this.chromeRestartVisible = true
   }
 

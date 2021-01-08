@@ -40,7 +40,7 @@
     "description": "Title of Passwords Management shortcut"
   },
   "chrome_reload": {
-    "message": "Restart Chrome",
+    "message": "Internal navigation",
     "description": "Title of Chrome restart shortcut"
   },
   "edit": {
@@ -124,11 +124,11 @@
     "description": "Confirmation of removing the extension"
   },
   "chrome_icon_cache": {
-    "message": "Chrome icons only",
+    "message": "Browser icons only",
     "description": "Pick icons from Google Chrome cache rather than using website/custom icons"
   },
   "chrome_icon_cache_hint": {
-    "message": "Always use icons from Google Chrome cache (small but reliable)",
+    "message": "Always use icons from browser cache (small but reliable)",
     "description": "Hint for icon cache switch"
   },
   "edit_bookmark": {
@@ -147,8 +147,12 @@
     "message": "Copied!",
     "description": "Copied action"
   },
+  "navigation_explanation": {
+    "message": "Unfortunately this browser does not allow to pen that page programmatically - to open it, please copy the link below, paste it to the browsed address bar and press Enter; or, use browser menu to open it.",
+    "description": ""
+  },
   "chrome_reload_explanation": {
-    "message": "Unfortunately Chrome cannot be restarted programmatically - to reload it, please copy the link below, paste it to the browsed address bar and press Enter",
+    "message": "Unfortunately the browser cannot be restarted programmatically - to reload it, please copy the link below, paste it to the browsed address bar and press Enter",
     "description": "Why browser cannot be restarted automatically"
   },
   "save_settings": {
@@ -244,7 +248,7 @@
     "description": ""
   },
   "display_sidebar_shortcuts" : {
-    "message": "show Chrome shortcuts at the sidebar",
+    "message": "show browser shortcuts at the sidebar",
     "description": ""
   },
   "app_info" : {
@@ -261,6 +265,18 @@
   },
   "app_dev" : {
     "message": "App development",
+    "description": ""
+  },
+  "browser" : {
+    "message": "Browser",
+    "description": ""
+  },
+  "flags" : {
+    "message": "Experiments",
+    "description": ""
+  },
+  "app_feedback" : {
+    "message": "Provide feedback",
     "description": ""
   }
 }

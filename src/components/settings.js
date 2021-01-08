@@ -1,10 +1,11 @@
+import {Browser,browserType,FIREFOX} from "@/browser";
+
 const SAVINGS_TIMEOUT = 1000;
 
 export default class Settings {
 	ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 7;
 
-	constructor(chromeInstance, initCallback) {
-		this.chrome = chromeInstance;
+	constructor(initCallback) {
 		this.savingsTimer = null;
 
 		this.current = {
@@ -20,7 +21,7 @@ export default class Settings {
 			backgroundImageUrl: '',
 			highlightedIcons: {},
 			// bookmarksRootNode: 0,
-			bookmarksRootNode: 1,
+			bookmarksRootNode: browserType() !== FIREFOX ? '1' : 'toolbar_____',
 			useGoogleIconService: true,
 			displaySidebarShortcuts: true
 		};
@@ -40,12 +41,12 @@ export default class Settings {
 			}
 		}
 
-		// initCallback();
+		initCallback();
 		this.loadSettings(initCallback);
 	}
 
 	loadSettings(initCallback) {
-		this.chrome.storage.sync.get(
+		Browser.storage.sync.get(
 			//[Object.keys(this.sync)],
 			this.sync,
 			(storedSyncSettings) => {
@@ -54,7 +55,7 @@ export default class Settings {
 				this.syncSettingsLoaded()
 
 				// this needs to be made concurrent with sync load, at some point
-				this.chrome.storage.local.get(
+				Browser.storage.local.get(
 					this.local,
 					storedLocalSettings => {
 						Object.assign(this.local, storedLocalSettings);
@@ -73,11 +74,11 @@ export default class Settings {
 
 	saveSyncSettings(timeout) {
 		if (!timeout) timeout = SAVINGS_TIMEOUT
-		this.saveSettings(this.chrome.storage.sync, this.sync, timeout);
+		this.saveSettings(Browser.storage.sync, this.sync, timeout);
 	}
 
 	saveLocalSettings() {
-		this.saveSettings(this.chrome.storage.local, this.local, 100);
+		this.saveSettings(Browser.storage.local, this.local, 100);
 	}
 
 	saveSettings(chromeStorage, settingsObject, timeout = SAVINGS_TIMEOUT) {

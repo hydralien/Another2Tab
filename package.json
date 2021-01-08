@@ -61,7 +61,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-undef": "off",
+      "no-undefined": "off"
+    }
   },
   "browserslist": [
     "> 1%",

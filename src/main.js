@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
-import chrome from './components/chrome';
+// eslint-disable-next-line no-unused-vars
+import './components/chrome';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {
 	faPencilRuler,
@@ -14,7 +15,9 @@ import {
 	faBookmark,
 	faSyncAlt,
 	faInfoCircle,
-	faPuzzlePiece
+	faPuzzlePiece,
+	faFlag,
+	faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 import{
 	faFolder,
@@ -42,12 +45,16 @@ library.add(
 	faFolder,
 	faFolderOpen,
 	faInfoCircle,
-	faPuzzlePiece
+	faPuzzlePiece,
+	faFlag,
+	faEnvelope
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;
-Vue.prototype.$chrome = chrome || {};
+// eslint-disable-next-line no-undef
+// Vue.prototype.$chrome = chrome
+
 
 new Vue({
 	render: h => h(App)

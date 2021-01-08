@@ -40,7 +40,7 @@
     "description": "Title of Passwords Management shortcut"
   },
   "chrome_reload": {
-    "message": "Chrome herstarten",
+    "message": "Browser systemagina",
     "description": "Title of Chrome restart shortcut"
   },
   "edit": {
@@ -124,11 +124,11 @@
     "description": "Confirmation of removing the extension"
   },
   "chrome_icon_cache": {
-    "message": "Chrome icons only",
+    "message": "Alleen browser pictogrammen",
     "description": "Pick icons from Google Chrome cache rather than using website/custom icons"
   },
   "chrome_icon_cache_hint": {
-    "message": "Always use icons from Google Chrome cache (small but reliable)",
+    "message": "Altijd browser pictogrammen gebruiken",
     "description": "Hint for icon cache switch"
   },
   "edit_bookmark": {
@@ -148,8 +148,12 @@
     "description": "Copied action"
   },
   "chrome_reload_explanation": {
-    "message": "Helaas kan Chrome niet programmatisch opnieuw worden gestart. Om het opnieuw te laden, kopieert u de onderstaande link, plakt u deze in de doorbladerde adresbalk en drukt u op Enter",
+    "message": "Helaas kan de browser programmatisch opnieuw niet worden gestart. Om het opnieuw te laden, kopieert u de onderstaande link, plakt u deze in de doorbladerde adresbalk en drukt u op Enter",
     "description": "Why browser cannot be restarted automatically"
+  },
+  "navigation_explanation": {
+    "message": "Helaas kan de browser programmatisch deze pagina niet openen. Om het pagina te laden, kopieert u de onderstaande link, plakt u deze in de doorbladerde adresbalk en drukt u op Enter, of de browser menu openen en de pagina gaar selecteren",
+    "description": ""
   },
   "save_settings": {
     "message": "Instellingen opslaan",
@@ -244,7 +248,7 @@
     "description": ""
   },
   "display_sidebar_shortcuts" : {
-    "message": "Chrome-snelkoppelingen in de zijbalk tonen",
+    "message": "Browser-snelkoppelingen in de zijbalk tonen",
     "description": ""
   },
   "app_info" : {
@@ -261,6 +265,18 @@
   },
   "app_dev" : {
     "message": "App ontwikkeling",
+    "description": ""
+  },
+  "browser" : {
+    "message": "Browser",
+    "description": ""
+  },
+  "flags" : {
+    "message": "Experimenten",
+    "description": ""
+  },
+  "app_feedback" : {
+    "message": "Reactie geven",
     "description": ""
   }
 }

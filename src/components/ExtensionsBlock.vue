@@ -32,6 +32,7 @@
 import Extension from "@/components/Extension";
 import {Vue, Prop, Component} from 'vue-property-decorator'
 import Modal from "@/components/Modal";
+import Browser from "@/browser";
 
 export default @Component({
   components: {
@@ -59,8 +60,9 @@ class ExtensionsBlock extends Vue {
   }
 
   loadExtensions() {
-    this.$chrome.management.getAll(
+    Browser.management.getAll(
         (loadedExtensions) => {
+          loadedExtensions = loadedExtensions.filter((loadedExtension) => !loadedExtension.type || loadedExtension.type !== 'theme')
           this.extensions = loadedExtensions;
         }
     );
@@ -73,7 +75,7 @@ class ExtensionsBlock extends Vue {
 
   deleteExtension() {
     this.processSaving = true
-    this.$chrome.management.uninstall(
+    Browser.management.uninstall(
         this.extensionToEdit.id,
         {showConfirmDialog: true},
         () => {

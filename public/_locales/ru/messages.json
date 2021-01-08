@@ -40,7 +40,7 @@
     "description": "Title of Passwords Management shortcut"
   },
   "chrome_reload": {
-    "message": "Перезапуск Chrome",
+    "message": "Внутренняя страница браузера",
     "description": "Title of Chrome restart shortcut"
   },
   "edit": {
@@ -124,11 +124,11 @@
     "description": "Confirmation of removing the extension"
   },
   "chrome_icon_cache": {
-    "message": "Chrome icons only",
+    "message": "Иконки браузера",
     "description": "Pick icons from Google Chrome cache rather than using website/custom icons"
   },
   "chrome_icon_cache_hint": {
-    "message": "Always use icons from Google Chrome cache (small but reliable)",
+    "message": "Всегда использовать иконки браузера",
     "description": "Hint for icon cache switch"
   },
   "edit_bookmark": {
@@ -148,8 +148,12 @@
     "description": "Copied action"
   },
   "chrome_reload_explanation": {
-    "message": "К сожалению, Chrome невозможно перазагрузить напрямую с данной страницы - чтобы сделать это, скопируйте приведённую ниже ссылку, вставьте её в адресную строку браузера и нажмите Enter",
+    "message": "К сожалению, браузер невозможно перазагрузить напрямую с данной страницы - чтобы сделать это, скопируйте приведённую ниже ссылку, вставьте её в адресную строку браузера и нажмите Enter",
     "description": "Why browser cannot be restarted automatically"
+  },
+  "navigation_explanation": {
+    "message": "К сожалению, данный браузер не позволяет открыть указанный адрес напрямую с данной страницы - чтобы сделать это, скопируйте приведённую ниже ссылку, вставьте её в адресную строку браузера и нажмите Enter. Вы также можете открыть желаемый адрес непосредственно из меню браузера.",
+    "description": ""
   },
   "save_settings": {
     "message": "Сохранить настройки",
@@ -261,6 +265,18 @@
   },
   "app_dev" : {
     "message": "Разработка",
+    "description": ""
+  },
+  "browser" : {
+    "message": "Браузер",
+    "description": ""
+  },
+  "flags" : {
+    "message": "Экспериментальные настройки",
+    "description": ""
+  },
+  "app_feedback" : {
+    "message": "Оставить отзыв",
     "description": ""
   }
 }
