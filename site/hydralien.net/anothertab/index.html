@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Google Chrome extension to display and manage important bookmarks and shortcuts on new tab page. Inspires productivity and convenience of bookmarks usage.">
+    <meta name="description" content="Google Chrome, Mozilla Firefox and Microsoft Edge extension to display and manage important bookmarks and shortcuts on new tab page. Inspires productivity and convenience of bookmarks usage.">
     <meta name="author" content="Boris Turchik">
 
-    <title>AnotherTab - New Tab page extension for Google Chrome</title>
+    <title>AnotherTab - New Tab page extension for Google Chrome, Mozilla Firefox and Microsoft Edge</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
 
@@ -38,6 +38,13 @@
         section.success {
             background-color: lightslategray;
         }
+        .browser-store {
+            border: 1px solid;
+            border-radius: 4px;
+        }
+        .store-links {
+            display: flex;
+        }
     </style>
 </head>
 
@@ -54,7 +61,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#page-top">AnotherTab - New Tab for Google Chrome&trade;</a>
+                <a class="navbar-brand" href="#page-top">AnotherTab - New Tab browser extension</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -88,7 +95,7 @@
                     <div class="intro-text">
                         <span class="name">AnotherTab</span>
                         <span class="skills">
-                            A Google Chrome&trade; extension to simplify bookmarks and extensions access via New Tab page
+                            A Google Chrome, Mozilla Firefox and Microsoft Edge extension to simplify bookmarks and extensions access via New Tab page
                         </span>
                     </div>
                 </div>
@@ -105,10 +112,10 @@
                 </div>
             </div>
             <div class="row">
-              <p>This extension replaces Chrome's standard New Tab page with a very simple thing - a list of a content of a selected bookmarks folder (Bookmarks Bar by default), installed Chrome Extensions list and some useful Chrome shortcuts like settings, passwords, cookies, extensions and data cleanup.</p>
+              <p>This extension replaces browser standard New Tab page with a very simple thing - a list of a content of a selected bookmarks folder (Bookmarks Bar by default), installed browser extensions list and some useful browser shortcuts like settings, passwords, cookies, extensions and data cleanup.</p>
 							<p>It also has an option to highlight, delete or rearrange bookmarks within selected folder to make its location easy to remember.</p>
                 <p>Additionally, several customization options are available, such as background color/image selection, tile size choice, tile-specific highlighting and selection of which directory to use as bookmarks root.</p>
-							<p>Extension also syncs with Google (if you have Chrome logged into your Google account) so you have settings synchronized across all computers you use Chrome at.</p>
+							<p>Extension also uses synchronised browser storage API to store settings locally and remotely.</p>
 							<p>Have a look:</p>
             </div>
 						<div class="row">
@@ -144,10 +151,22 @@
             <h2>Download</h2>
           </div>
         </div>
-        <div class="row text-center">
-          <a href="https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl" class="btn btn-lg btn-outline">
-            <img class="img-responsive" src="img/chromewebstore.png" alt="Install it from Chrome Web Store">
+        <div class="row text-center store-links">
+        <div class="col-4">
+          <a id="edge-store" href="https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl" class="btn btn-lg btn-outline">
+            <img class="img-responsive browser-store" src="img/edge.png" alt="Install it from Microsoft Edge Store">
           </a>
+        </div>
+        <div class="col-4">
+          <a id="chrome-store" href="https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl" class="btn btn-lg btn-outline">
+            <img class="img-responsive browser-store" src="img/chromewebstore.png" alt="Install it from Chrome Web Store">
+          </a>
+        </div>
+        <div class="col-4">
+          <a id="mozilla-store" href="https://addons.mozilla.org/en-US/firefox/addon/anothertab-new-tab-page/" class="btn btn-lg btn-outline">
+            <img class="img-responsive browser-store" src="img/firefox.png" alt="Install it from Mozilla Firefox Store">
+          </a>
+        </div>
         </div>
         </div>
     </section>
