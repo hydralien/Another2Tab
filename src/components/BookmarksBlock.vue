@@ -128,7 +128,7 @@ class BookmarksBlock extends Vue {
   }
 
   get isEditFolder() {
-    return this.bookmarkToEdit.url === undefined;
+    return this.bookmarkIsFolder(this.bookmarkToEdit)
   }
 
   dragMove() {
@@ -192,7 +192,7 @@ class BookmarksBlock extends Vue {
   }
 
   toggleRootBookmark(bookmarkIndex) {
-    const filter = (loadedBookmark) => loadedBookmark.url === undefined
+    const filter = (loadedBookmark) => this.bookmarkIsFolder(loadedBookmark)
     this.settings.sync.bookmarksRootNode = this.rootMarks[bookmarkIndex].id
     this.settings.saveSyncSettings(1)
     return this.toggleAnyBookmark(bookmarkIndex, this.rootMarks, filter)
@@ -230,12 +230,25 @@ class BookmarksBlock extends Vue {
     })
   }
 
+  bookmarkIsFolder(testBookmark) {
+    return testBookmark.url === undefined;
+  }
+
   deleteBookmark() {
     if (!this.confirmDelete) {
       this.confirmDelete = true
       return
     }
     const callback = () => {
+      if (this.bookmarkIsFolder(this.bookmarkToEdit)) {
+        const children = [];
+        this.bookmarks.forEach((item, index) => {
+          if (item.parentId === this.bookmarkToEdit.id) children.push(index);
+        })
+        if (children.length > 0) {
+          this.bookmarks.splice(children[0], children.length);
+        }
+      }
       this.bookmarks.splice(
           this.bookmarks.findIndex((bookmark) => bookmark.id === this.bookmarkToEdit.id),
           1
@@ -249,7 +262,7 @@ class BookmarksBlock extends Vue {
       delete this.settings.sync.highlightedIcons[this.bookmarkToEdit.id]
       this.settings.saveSyncSettings(100)
     }
-    if (this.bookmarkToEdit.url === undefined) {
+    if (this.bookmarkIsFolder(this.bookmarkToEdit)) {
       // directory
       Browser.bookmarks.removeTree(this.bookmarkToEdit.id, callback)
     } else {
