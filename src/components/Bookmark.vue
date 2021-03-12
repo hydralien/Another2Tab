@@ -8,7 +8,7 @@
   >
     <a v-bind:href="bookmark.url" v-bind:title="bookmark.title" v-on:click="navigate">
       <div class="row m-0 icon bookmark-item" :style="bookmarkStyle">
-        <div class="py-0 pl-0 pr-1 icon-image-side">
+        <div class="py-0 pl-0 pr-1 icon-image-side" :style="dirIconStyle">
           <font-awesome-icon :icon="['far', 'folder-open']" v-if="isFolder && bookmark.opened"
                              class="directory"></font-awesome-icon>
           <font-awesome-icon :icon="['far', 'folder']" v-else-if="isFolder && !bookmark.opened"
@@ -72,6 +72,22 @@ class Bookmark extends Vue {
     return r + g + b
   }
 
+  get isHighlighted() {
+    if (this.bookmark && this.settings.sync.highlightedIcons[this.bookmark.id]) {
+      return true;
+    }
+    return false;
+  }
+
+  get isDarkTile() {
+    if (!this.isHighlighted) return false;
+    const bgColor = this.settings.sync.highlightedIcons[this.bookmark.id]
+    if (this.rgbSum(bgColor) < (255*3)/2) {
+      return true;
+    }
+    return false;
+  }
+
   get bookmarkStyle() {
     const styles = {
       'cursor': this.editMode ? 'grab' : 'pointer'
@@ -81,13 +97,18 @@ class Bookmark extends Vue {
       alpha = 0.7
     }
     styles['background-color'] = `rgba(255,255,255,${alpha})`
-    if (this.bookmark && this.settings.sync.highlightedIcons[this.bookmark.id]) {
+    if (this.isHighlighted) {
       const bgColor = this.settings.sync.highlightedIcons[this.bookmark.id]
       styles['background-color'] = this.hexToRGB(bgColor, alpha)
-      if (this.rgbSum(bgColor) < (255*3)/2) styles['color'] = '#ffffff'
+      if (this.isDarkTile) styles['color'] = '#ffffff'
     }
 
     return styles
+  }
+
+  get dirIconStyle() {
+    if (this.isDarkTile) return {color: 'rgb(214, 221, 230)'};
+    return {color: 'rgb(114, 121, 130)'};
   }
 
   navigate(event) {
