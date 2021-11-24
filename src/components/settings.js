@@ -1,4 +1,4 @@
-import {Browser,browserType,FIREFOX} from "@/browser";
+import {Browser,browserType,FIREFOX,EDGE} from "@/browser";
 
 const SAVINGS_TIMEOUT = 1000;
 
@@ -106,11 +106,15 @@ export default class Settings {
 		let now = new Date();
 		if (!cachedIcon
 			|| this.current.iconReload
-			|| parseInt(cachedIcon.createdAt) + this.ICON_CACHE_ITEM_TTL_SECONDS < parseInt(now.getTime() / 1000)) {
+			|| parseInt(cachedIcon.createdAt) + this.ICON_CACHE_ITEM_TTL_SECONDS < Math.floor(now.getTime() / 1000)) {
 			if (this.sync.useGoogleIconService) {
 				return `https://www.google.com/s2/favicons?sz=32&domain_url=${iconUrl}`
 			}
-			return "chrome://favicon/" + iconUrl;
+			let browserTypeName = 'chrome';
+			if (browserType() === EDGE) {
+				browserTypeName = 'edge';
+			}
+			return `${browserTypeName}://favicon/${iconUrl}`;
 		}
 
 		return cachedIcon.content;
@@ -119,7 +123,7 @@ export default class Settings {
 	saveCachedLocalIcon(iconUrl, iconContent) {
 		this.local.iconCache[iconUrl] = {
 			content: iconContent,
-			createdAt: parseInt(new Date().getTime() / 1000)
+			createdAt: Math.floor(new Date().getTime() / 1000)
 		};
 		this.saveLocalSettings();
 	}
