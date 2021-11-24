@@ -62,6 +62,10 @@ class ExtensionsBlock extends Vue {
   loadExtensions() {
     Browser.management.getAll(
         (loadedExtensions) => {
+          if (loadedExtensions === null || !Array.isArray(loadedExtensions) || loadedExtensions.length === 0) {
+            this.extensions = [];
+            return;
+          }
           loadedExtensions = loadedExtensions.filter((loadedExtension) => !loadedExtension.type || loadedExtension.type !== 'theme')
           this.extensions = loadedExtensions;
         }

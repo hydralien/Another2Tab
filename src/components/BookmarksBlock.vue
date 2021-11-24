@@ -118,6 +118,10 @@ class BookmarksBlock extends Vue {
     Browser.bookmarks.getChildren(
         browserType() !== FIREFOX ? '0' : 'root________',
         (loadedBookmarks) => {
+          if (loadedBookmarks === null || !Array.isArray(loadedBookmarks) || loadedBookmarks.length === 0) {
+            this.rootMarks = [];
+            return;
+          }
           this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
         }
     )
@@ -311,7 +315,7 @@ class BookmarksBlock extends Vue {
     Browser.bookmarks.getChildren(
         rootNode.toString(),
         (loadedBookmarks) => {
-          if (loadedBookmarks && loadedBookmarks.length > 0) {
+          if (loadedBookmarks !== null && Array.isArray(loadedBookmarks) && loadedBookmarks.length > 0) {
             if (filter) loadedBookmarks = loadedBookmarks.filter(filter)
             if (parentBookmark && parentBookmark.opened) {
               loadedBookmarks = loadedBookmarks.map(

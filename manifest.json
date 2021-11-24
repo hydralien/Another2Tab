@@ -22,7 +22,8 @@
     "management",
     "search",
     "https://www.google.com/s2/favicons",
-    "chrome://favicon/"
+    "chrome://favicon/",
+    "edge://favicon/"
   ],
   "chrome_url_overrides": {
     "newtab": "index.html"
