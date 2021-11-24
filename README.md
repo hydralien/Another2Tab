@@ -10,14 +10,15 @@ Some limited bookmark and extension management functions are also available/
 
 ### How do I get set up? ###
 * You need Node.js installed to build the package - follow https://nodejs.org/en/download/ instructions to get one
-* Then, in the cloned AnotherTab repository, run `npm install` to retrieve all the packages required for building the app; might take some time.
-* Once done, run `npm build` if you only want to build it once (meaning you're not going to change code)
+* Then, in the cloned AnotherTab repository, run `yarn install` to retrieve all the packages required for building the app; might take some time.
+* Once done, run `yarn run build` if you only want to build it once (meaning you're not going to change code)
     * In this case, use `dist/` directory content add the package as 'unpacked' extension to Chrome (the actual code of extension will be built to the `dist`)
     
-* If you want to develop teh code, run `npm dev` - it will monitor for changes and re-build the extension each time you change it
+* If you want to develop teh code, run `yarn run dev` - it will monitor for changes and re-build the extension each time you change it
     * In this case, use `build/` directory content add the package as 'unpacked' extension to Chrome (the actual code of extension will be built to the `build`)
 
 * Follow the official Chrome Developer guide to install a built extension as 'unpacked'': https://developer.chrome.com/extensions/getstarted#unpacked
+* Package update: install npm-check-updates with `npm install -g npm-check-updates`, then do `ncu -u` and then `yarn install`
 
 ### More info
 * Extension "website" is at http://hydralien.net/anothertab/

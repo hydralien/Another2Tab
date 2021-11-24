@@ -3,7 +3,7 @@
   "name": "AnotherTab - New Tab page",
   "short_name": "__MSG_short_name__",
   "description": "__MSG_main_description__",
-  "version": "3.5",
+  "version": "3.6",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "16": "icons/16.png",
@@ -21,7 +21,8 @@
     "storage",
     "management",
     "search",
-    "https://www.google.com/s2/favicons"
+    "https://www.google.com/s2/favicons",
+    "chrome://favicon/"
   ],
   "chrome_url_overrides": {
     "newtab": "index.html"
