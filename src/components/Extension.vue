@@ -2,7 +2,7 @@
   <div class="m-0 p-2 icon-wrapper">
     <a v-bind:title="extension.name" :class="[!extension.enabled ? 'disabled' : '']">
       <div class="row m-0 icon bookmark-item extension-item" v-on:click="navigate" :style="extensionStyle">
-        <div class="py-0 pl-0 pr-1 col-2 icon-image-side">
+        <div class="p-0 pl-0 pr-1 col-2 icon-image-side">
           <img v-bind:src="iconUrl" v-bind:origin="extension.id" v-bind:alt="extension.name">
         </div>
         <div class="py-0 pl-1 pr-0 col-10 icon-name-side">

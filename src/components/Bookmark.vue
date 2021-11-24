@@ -8,7 +8,7 @@
   >
     <a v-bind:href="bookmark.url" v-bind:title="bookmark.title" v-on:click="navigate">
       <div class="row m-0 icon bookmark-item" :style="bookmarkStyle">
-        <div class="py-0 pl-0 pr-1 icon-image-side" :style="dirIconStyle">
+        <div class="p-0 pl-0 pr-1 icon-image-side" :style="dirIconStyle">
           <font-awesome-icon :icon="['far', 'folder-open']" v-if="isFolder && bookmark.opened"
                              class="directory"></font-awesome-icon>
           <font-awesome-icon :icon="['far', 'folder']" v-else-if="isFolder && !bookmark.opened"
