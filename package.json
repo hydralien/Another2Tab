@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service build --mode development --dest build --watch",
-    "release": "npm run build && `rm dist/AnotherTab.zip ; cd dist; zip -r AnotherTab.zip .`",
+    "release": "yarn run build && `rm dist/AnotherTab.zip ; cd dist; zip -r AnotherTab.zip .`",
     "test": "vue-cli-service test:unit"
   },
   "dependencies": {

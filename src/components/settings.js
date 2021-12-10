@@ -5,6 +5,8 @@ const SAVINGS_TIMEOUT = 1000;
 export default class Settings {
 	ICON_CACHE_ITEM_TTL_SECONDS = 3600 * 24 * 7;
 
+	EMPTY_GOOGLE_IMAGE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAqpJREFUOE9jZKAQMML0h4au4nz567WItYmS6e9ff7Lff/hu8vHTDx6QPB8vxxdBAc4zbOwsU4+euXdanE30zerVYd9BcmADQJq//H4vpaImnvrl608/FUVhMTklIeFfv/8ysLEyMyjKCTPs3n3j7YNH71/x8bJtunPr9WweVsFnIEPABtj5T5XVV5fO/vb9T5SWjpisorwwAzcXG4ORrgzD12+/GOSl+Biev/7GcPnGM4Zly88+5uNmW3bx9vOphzZmPwYbUNm8PejZ848tqUmWmq/efAH7ipWVGUzrakiCDfj7j4Hh0Kn7YCfPX3TyurSUQE17rec6sAHFNZv38nCz6deWuQlv2n0NJVidbdQY+LhZGD59/cOw98gtBiU5IYY16y6+/fr918X+Vj9nsAFJOas+JiWY8+lqSIEVwQBMM4gPcsHNe28Ybt59xSAmwsMwZ96JTwumhfODDQiOW/i3o8mPSUVegGHX4TsMMpICYAyyGRnsP3Gf4cPH7wwgi8prNv5btySBGW7A5J4QJklRLrBTT5x7AA5AEQEODANAgaqhLM5QVrPx33qYAYnZKz8mJ1rwWRvLwTUcPfsIzlaSE2EAGQ4Cbz78AHtj9tzjnxZOj4B4ARaIDRVuwjBdsECD8aUlBRjM9KTA3IqG7W9//fpzsb8dGogVjdsDn7/42JqabKkJcwW6ASCNfq5aDCfOP2KYOefYdWlJgeqOes/1SAlJMvvTl19RqUmWsjBD7jz8AE48kPQgxfDyzSeGmbOPPRbgZUdNSIikLJr68fNPPxlJfjEvL23h37//Mtx79Jbh16+/DI/vv3/7+NmHVwI87Jvu3EFLyrD8AMpMVkZKJj9//c55//67yafPP3j+//8PzkzCQlynuThYppw6c/8sP3pmQokrEjkAXks6IN8w3ycAAAAASUVORK5CYII=";
+
 	constructor(initCallback) {
 		this.savingsTimer = null;
 
@@ -115,6 +117,10 @@ export default class Settings {
 				browserTypeName = 'edge';
 			}
 			return `${browserTypeName}://favicon/${iconUrl}`;
+		}
+
+		if (cachedIcon.content === this.EMPTY_GOOGLE_IMAGE) {
+			return this.getFallbackIcon(iconUrl);
 		}
 
 		return cachedIcon.content;
