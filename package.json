@@ -71,8 +71,9 @@
     }
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "last 2 years"
+  ],
+  "webpack": {
+    "devtool": "cheap-module-source-map"
+  }
 }

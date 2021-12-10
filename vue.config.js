@@ -9,6 +9,7 @@ module.exports = {
 		}
 	},
 	configureWebpack: {
+		devtool: 'cheap-module-source-map',
 		plugins: [
 			new CopyPlugin({
 				patterns: [
