@@ -23,3 +23,6 @@ Some limited bookmark and extension management functions are also available/
 ### More info
 * Extension "website" is at http://hydralien.net/anothertab/
 * Extension page on Chrome Webstore: https://chrome.google.com/webstore/detail/anothertab-new-tab-page/cpeojfdfhhgedcaiglbjdklaigennhpl
+
+### Firefox submission notes
+* Please use "yarn install" to install dependencies, and "yarn run build" or "yarn run dev" to build the code into dist/ (production) or build/ (development)
