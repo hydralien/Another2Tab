@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@popperjs/core": "^2.11.0",
     "@types/node": "^16.11.12",
     "@vue/cli-plugin-babel": "~5.0.0-rc.1",
     "@vue/cli-plugin-eslint": "~5.0.0-rc.1",
@@ -42,6 +43,7 @@
     "expect": "^27.4.2",
     "html-webpack-plugin": "^5.5.0",
     "image-to-data-uri": "^1.1.0",
+    "jquery": "^3.6.0",
     "jsdom": "^19.0.0",
     "jsdom-global": "^3.0.2",
     "less": "^4.1.2",
