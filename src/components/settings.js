@@ -119,7 +119,8 @@ export default class Settings {
 			return `${browserTypeName}://favicon/${iconUrl}`;
 		}
 
-		if (cachedIcon.content === this.EMPTY_GOOGLE_IMAGE) {
+		// Firefox doesn't provide favicon cache access
+		if (cachedIcon.content === this.EMPTY_GOOGLE_IMAGE && browserType() !== FIREFOX) {
 			return this.getFallbackIcon(iconUrl);
 		}
 

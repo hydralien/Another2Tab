@@ -3,7 +3,7 @@
   "name": "AnotherTab - New Tab page",
   "short_name": "__MSG_short_name__",
   "description": "__MSG_main_description__",
-  "version": "3.6",
+  "version": "3.7",
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": {
     "16": "icons/16.png",
