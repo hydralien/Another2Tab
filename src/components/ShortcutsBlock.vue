@@ -72,7 +72,7 @@ class ShortcutsBlock extends Vue {
       icon: "sliders-h",
     },
     {
-      url: "chrome://settings/passwords",
+      url: "chrome://password-manager/passwords",
       titleTag: "passwords",
       icon: "key",
     },

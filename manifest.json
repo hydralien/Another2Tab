@@ -3,7 +3,7 @@
   "name": "AnotherTab - New Tab page",
   "short_name": "__MSG_short_name__",
   "description": "__MSG_main_description__",
-  "version": "3.8",
+  "version": "3.9",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';",
     "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
@@ -19,11 +19,9 @@
     "managed_schema": "init.json"
   },
   "permissions": [
-    "tabs",
     "bookmarks",
     "storage",
     "management",
-    "search",
     "favicon"
   ],
   "chrome_url_overrides": {
