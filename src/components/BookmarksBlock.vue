@@ -57,7 +57,12 @@
     <h2>
       {{ tr("bookmarks_header") }}
     </h2>
-    <draggable v-model="bookmarks" :move="dragMove" @change="dragEnd" class="content tiles" id="content-bookmarks">
+    <section v-if="showRootFallback && !editMode" class="content tiles" id="content-bookmarks-root-fallback">
+      <Bookmark v-for="(bookmark,index) in rootMarks" v-bind:key="index" v-bind:bookmark="bookmark"
+                v-bind:settings="settings" :index="index"
+                @directoryToggle="toggleRootFallback"></Bookmark>
+    </section>
+    <draggable v-else v-model="bookmarks" :move="dragMove" @change="dragEnd" class="content tiles" id="content-bookmarks">
       <Bookmark v-for="(bookmark,index) in bookmarks" v-bind:key="index" v-bind:bookmark="bookmark"
                 v-bind:settings="settings" :edit-mode="editMode" :index="index"
                 @edit="editBookmark" @directoryToggle="toggleBookmark"></Bookmark>
@@ -115,16 +120,7 @@ class BookmarksBlock extends Vue {
   @Watch('editMode')
   editModeChange(value) {
     if (!value) return
-    Browser.bookmarks.getChildren(
-        browserType() !== FIREFOX ? '0' : 'root________',
-        (loadedBookmarks) => {
-          if (loadedBookmarks === null || !Array.isArray(loadedBookmarks) || loadedBookmarks.length === 0) {
-            this.rootMarks = [];
-            return;
-          }
-          this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
-        }
-    )
+    this.loadRootMarks()
   }
 
   mounted() {
@@ -133,6 +129,10 @@ class BookmarksBlock extends Vue {
 
   get isEditFolder() {
     return this.bookmarkIsFolder(this.bookmarkToEdit)
+  }
+
+  get showRootFallback() {
+    return this.bookmarks.length === 0 && this.rootMarks.length > 0
   }
 
   dragMove() {
@@ -183,6 +183,23 @@ class BookmarksBlock extends Vue {
 
   rootSelection(rootNode) {
     console.log(rootNode)
+  }
+
+  loadRootMarks() {
+    Browser.bookmarks.getChildren(
+        browserType() !== FIREFOX ? '0' : 'root________',
+        (loadedBookmarks) => {
+          if (loadedBookmarks === null || !Array.isArray(loadedBookmarks) || loadedBookmarks.length === 0) {
+            this.rootMarks = [];
+            return;
+          }
+          this.rootMarks = loadedBookmarks.filter((bookmark) => !bookmark.url)
+        }
+    )
+  }
+
+  toggleRootFallback(bookmarkIndex) {
+    return this.toggleAnyBookmark(bookmarkIndex, this.rootMarks)
   }
 
   editBookmark(bookmark) {
@@ -328,6 +345,8 @@ class BookmarksBlock extends Vue {
               loadedBookmarks[loadedBookmarks.length - 1].listPosition = "last"
             }
             bookmarkSource.splice(insertAt, 0, ...loadedBookmarks);
+          } else if (!insertAt && this.rootMarks.length === 0) {
+            this.loadRootMarks()
           }
           if (params.finally) params.finally()
         }
