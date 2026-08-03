@@ -141,25 +141,30 @@ class BookmarksBlock extends Vue {
 
   dragEnd(moveParams) {
     const newIndex = moveParams.moved.newIndex
+    const oldIndex = moveParams.moved.oldIndex
     const updateParams = {}
-    const styleParams = {
-      listPosition: undefined,
-      nestedLevel: undefined
-    }
     const previousItem = newIndex > 0 ? this.bookmarks[newIndex - 1] : undefined
-    if (previousItem.nestedLevel) {
-      styleParams.nestedLevel = previousItem.nestedLevel
+
+    // Capture old style state before modifying (vuedraggable already moved the element in the array)
+    const oldListPosition = this.bookmarks[newIndex].listPosition
+    const oldParentId = this.bookmarks[newIndex].parentId
+
+    let newListPosition = undefined
+    let newNestedLevel = undefined
+
+    if (previousItem && previousItem.nestedLevel) {
+      newNestedLevel = previousItem.nestedLevel
       if (previousItem.listPosition === 'first') {
         updateParams.parentId = previousItem.id
-        styleParams.listPosition = 'middle'
+        newListPosition = 'middle'
         updateParams.index = 0
       } else if (previousItem.listPosition === 'last') {
         updateParams.parentId = previousItem.parentId
-        styleParams.listPosition = 'last'
+        newListPosition = 'last'
         updateParams.index = previousItem.index + 1
-        previousItem.listPosition = 'middle'
+        this.$set(this.bookmarks[newIndex - 1], 'listPosition', 'middle')
       } else {
-        styleParams.listPosition = 'middle'
+        newListPosition = 'middle'
         updateParams.index = previousItem.index + 1
         updateParams.parentId = previousItem.parentId
       }
@@ -171,12 +176,31 @@ class BookmarksBlock extends Vue {
       updateParams.parentId = this.rootNode
     }
 
-    Object.assign(this.bookmarks[newIndex], styleParams)
+    // When moved item was the last in a nested group, promote the new last item
+    if (oldListPosition === 'last') {
+      const gapIndex = newIndex < oldIndex ? oldIndex : oldIndex - 1
+      const neighbor = this.bookmarks[gapIndex]
+      if (neighbor && neighbor.parentId === oldParentId) {
+        this.$set(this.bookmarks[gapIndex], 'listPosition', 'last')
+      }
+    }
+
+    this.$set(this.bookmarks[newIndex], 'nestedLevel', newNestedLevel)
+    this.$set(this.bookmarks[newIndex], 'listPosition', newListPosition)
     Object.assign(this.bookmarks[newIndex], updateParams)
+
+    const movedId = this.bookmarks[newIndex].id
     Browser.bookmarks.move(
-        this.bookmarks[newIndex].id,
+        movedId,
         updateParams,
-        () => {
+        (updated) => {
+          if (updated) {
+            const idx = this.bookmarks.findIndex(b => b.id === movedId)
+            if (idx !== -1) {
+              this.$set(this.bookmarks[idx], 'index', updated.index)
+              this.$set(this.bookmarks[idx], 'parentId', updated.parentId)
+            }
+          }
         }
     )
   }

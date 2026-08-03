@@ -35,6 +35,10 @@
     "message": "Cookies and site data",
     "description": "Title of Cookie Management shortcut"
   },
+  "site_content": {
+    "message": "Site content settings",
+    "description": "Title of Site Content shortcut"
+  },
   "passwords": {
     "message": "Saved passwords",
     "description": "Title of Passwords Management shortcut"

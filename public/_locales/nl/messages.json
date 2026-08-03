@@ -35,6 +35,10 @@
     "message": "Cookies en webpagina's gegevens",
     "description": "Title of Cookie Management shortcut"
   },
+  "site_content": {
+    "message": "Site-inhoudinstellingen",
+    "description": "Title of Site Content shortcut"
+  },
   "passwords": {
     "message": "Opgeslagen wachtwoorden",
     "description": "Title of Passwords Management shortcut"

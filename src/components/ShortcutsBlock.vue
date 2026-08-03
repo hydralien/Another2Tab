@@ -67,6 +67,11 @@ class ShortcutsBlock extends Vue {
       icon: "cookie-bite",
     },
     {
+      url: "chrome://settings/content",
+      titleTag: "site_content",
+      icon: "folder",
+    },
+    {
       url: "chrome://settings",
       titleTag: "params",
       icon: "sliders-h",
@@ -114,6 +119,12 @@ class ShortcutsBlock extends Vue {
       icon: "cookie-bite",
     },
     {
+      url: "about:preferences#privacy",
+      titleTag: "site_content",
+      click: () => this.$emit("reload", "about:preferences#privacy", "navigation_explanation"),
+      icon: "folder",
+    },
+    {
       url: "about:preferences",
       titleTag: "params",
       click: () => this.$emit("reload", "about:preferences", "navigation_explanation"),
@@ -148,6 +159,11 @@ class ShortcutsBlock extends Vue {
       url: "edge://settings/content/cookies",
       titleTag: "cookies",
       icon: "cookie-bite",
+    },
+    {
+      url: "edge://settings/content",
+      titleTag: "site_content",
+      icon: "folder",
     },
     {
       url: "edge://settings/",

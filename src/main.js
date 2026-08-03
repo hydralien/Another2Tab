@@ -17,7 +17,8 @@ import {
 	faInfoCircle,
 	faPuzzlePiece,
 	faFlag,
-	faEnvelope
+	faEnvelope,
+	faFolder as faFolderSolid
 } from '@fortawesome/free-solid-svg-icons'
 import{
 	faFolder,
@@ -44,6 +45,7 @@ library.add(
 	faSyncAlt,
 	faFolder,
 	faFolderOpen,
+	faFolderSolid,
 	faInfoCircle,
 	faPuzzlePiece,
 	faFlag,

@@ -35,6 +35,10 @@
     "message": "Куки и данные сайтов",
     "description": "Title of Cookie Management shortcut"
   },
+  "site_content": {
+    "message": "Настройки контента сайтов",
+    "description": "Title of Site Content shortcut"
+  },
   "passwords": {
     "message": "Сохранённые пароли",
     "description": "Title of Passwords Management shortcut"
